@@ -6,18 +6,18 @@ BEGIN
     Recuperaciones(dias);    
 END;
 
-execute Simulacion(20); 
+execute Simulacion(30); 
 
 
 CREATE OR REPLACE PROCEDURE Infecciones(dias number)
 IS
     pais number := 1;
-    modelo varchar(30);
+    modelo number;
     poblacion number;
 BEGIN
     WHILE (pais <= 10)
     LOOP
-        SELECT m.nombre_aislamiento INTO modelo 
+        SELECT MAX(m.codigo_aislamiento) INTO modelo 
         FROM Modelo_Aislamiento m, Lugar_Modelo lm 
         WHERE lm.fk_lugar = pais 
         AND m.codigo_aislamiento = lm.fk_modelo_aislamiento;
@@ -30,10 +30,10 @@ BEGIN
         AND p.FK_LUGAR = estado.codigo_lugar
         AND estado.fk_lugar = pais.codigo_lugar
         AND pais.codigo_lugar=pais;
-
-        IF (modelo = 'Libre Movilidad') THEN
+    
+        IF (modelo = 2) THEN
             LibreMovilidad(dias, pais, poblacion);
-        ELSIF (modelo = '1 de cada 8 se mueve') THEN
+        ELSIF (modelo = 1) THEN
             UnoCadaOcho(dias, pais, poblacion);
         END IF;
 
@@ -79,7 +79,7 @@ BEGIN
     UPDATE Condicion_Persona
     SET fk_condicion = 2
     WHERE fk_persona IN (SELECT personaAleatoria.condicion
-                            FROM (SELECT p.codigo_persona persona, cp.fk_persona condicion , p.datos_basicos.primer_nombre nombre
+                            FROM (SELECT cp.fk_persona condicion
                                     FROM Condicion_persona cp, Persona p, Lugar estado, Lugar pa
                                     WHERE cp.FK_Condicion = 1
                                     AND cp.fk_persona = p.codigo_persona 
@@ -100,8 +100,8 @@ IS
     infectados number;
     infectadosAuxiliar number;
     contadorDias number := 1;
+    poblacionSale pls_integer := dbms_random.value(100, poblacion);
 BEGIN
-        
     SELECT COUNT(topPersonaAleatoria.persona) INTO infectados
     FROM (SELECT personaAleatoria.persona persona, personaAleatoria.condicion condicion , personaAleatoria.nombre nombre
             FROM (SELECT p.codigo_persona persona, cp.fk_condicion condicion , p.datos_basicos.primer_nombre nombre
@@ -112,7 +112,7 @@ BEGIN
                     AND estado.fk_lugar = pa.codigo_lugar
                     AND pa.codigo_lugar=pais
                     ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
-            WHERE rownum <= poblacion) topPersonaAleatoria
+            WHERE rownum <= poblacionSale) topPersonaAleatoria
     WHERE topPersonaAleatoria.condicion = 2;
 
     infectadosAuxiliar := infectados;
@@ -129,7 +129,7 @@ BEGIN
     UPDATE Condicion_Persona
     SET fk_condicion = 2
     WHERE fk_persona IN (SELECT personaAleatoria.condicion
-                            FROM (SELECT p.codigo_persona persona, cp.fk_persona condicion , p.datos_basicos.primer_nombre nombre
+                            FROM (SELECT cp.fk_persona condicion
                                     FROM Condicion_persona cp, Persona p, Lugar estado, Lugar pa
                                     WHERE cp.FK_Condicion = 1
                                     AND cp.fk_persona = p.codigo_persona 
@@ -181,21 +181,21 @@ CREATE OR REPLACE PROCEDURE CasosDeRecuperacion(persona number, dias number, por
 IS
     contadorDias number := 1;
     flag number := 0;
-    fluctuacion number;
+    fluctuacion pls_integer;
     porcentajeSubida number;
     porcentajeBajada number;
     porcentaje number;
 BEGIN
     porcentaje := porcentajeRecuperacion;                                              
     IF (porcentajeRecuperacion = 80)THEN
-        porcentajeSubida := 2;
+        porcentajeSubida := 2.5;
         porcentajeBajada := -1;
     ELSIF (porcentajeRecuperacion = 65)THEN
-        porcentajeSubida := 1;
+        porcentajeSubida := 2;
         porcentajeBajada := -1;
     ELSIF (porcentajeRecuperacion = 45)THEN
         porcentajeSubida := 1;
-        porcentajeBajada := -2;
+        porcentajeBajada := -1.5;
     END IF;
         
     WHILE (contadorDias <= dias)
@@ -213,7 +213,7 @@ BEGIN
             WHERE fk_persona = persona;
             contadorDias := dias;
             flag := 1;
-        ELSIF (porcentaje <= 30)THEN --FALLECE
+        ELSIF (porcentaje <= 20)THEN --FALLECE
             UPDATE Condicion_Persona 
             SET fk_condicion = 4
             WHERE fk_persona = persona;
@@ -224,9 +224,4 @@ BEGIN
         contadorDias := contadorDias+1;
     END LOOP;
 
-    IF (flag = 0)THEN
-        UPDATE Condicion_Persona 
-        SET fk_condicion = 3
-        WHERE fk_persona = persona;
-    END IF;
 END;

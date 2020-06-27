@@ -108,6 +108,20 @@ INSERT INTO Patologia VALUES (14, 'Rubeola');
 INSERT INTO Patologia VALUES (15, 'Taquicardia');
 
 
-select * from patologia;
---
+--SINTOMA
+INSERT INTO Sintoma VALUES (1, 'Fiebre');
+INSERT INTO Sintoma VALUES (2, 'Cansancio');
+INSERT INTO Sintoma VALUES (3, 'Tos Seca');
+INSERT INTO Sintoma VALUES (4, 'Dolores Musculares');
+INSERT INTO Sintoma VALUES (5, 'Congestion Nasal');
+INSERT INTO Sintoma VALUES (6, 'Dolor de Garganta');
+INSERT INTO Sintoma VALUES (7, 'Diarrea');
+INSERT INTO Sintoma VALUES (8, 'Fatiga');
+INSERT INTO Sintoma VALUES (9, 'Conjuntivitis');
+INSERT INTO Sintoma VALUES (10, 'Dolor de Cabeza');
+INSERT INTO Sintoma VALUES (11, 'Perdida del sentido del olfato');
+INSERT INTO Sintoma VALUES (12, 'Erupciones Cutaneas');
+INSERT INTO Sintoma VALUES (13, 'Nauseas');
+INSERT INTO Sintoma VALUES (14, 'Presion en el Pecho');
+INSERT INTO Sintoma VALUES (15, 'Incapacidad para Hablar');
 
