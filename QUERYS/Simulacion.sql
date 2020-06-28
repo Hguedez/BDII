@@ -49,6 +49,14 @@ IS
     infectados number;
     infectadosAuxiliar number;
     contadorDias number := 1;
+    tratados pls_integer;
+    contadorTratados number;
+    clinica number;
+    estado number;
+    personaInfectadaTratada number;
+    noTratados number;
+    contadorNoTratados number;
+    sanos number;
 BEGIN
     poblacionSale := trunc(poblacion/8);                
 
@@ -65,12 +73,24 @@ BEGIN
             WHERE rownum <= poblacionSale) topPersonaAleatoria
     WHERE topPersonaAleatoria.condicion = 2;
 
+    SELECT COUNT(p.codigo_persona) INTO sanos
+    FROM Persona p, Condicion_persona cp, Lugar estado, Lugar pais
+    WHERE cp.FK_Condicion = 1
+    AND cp.fk_persona = p.codigo_persona 
+    AND p.FK_LUGAR = estado.codigo_lugar
+    AND estado.fk_lugar = pais.codigo_lugar
+    AND pais.codigo_lugar=pais;
+
     infectadosAuxiliar := infectados;
 
-    WHILE (contadorDias <= dias) AND (infectados <= poblacion)
+    WHILE (contadorDias <= dias)
     LOOP
-        infectados := infectados*R0;
-        contadorDias := contadorDias+1;
+        IF (infectados*R0 <= sanos)THEN
+            infectados := infectados*R0;
+            contadorDias := contadorDias+1;
+        ELSE 
+            contadorDias := dias+1;
+        END IF;     
     END LOOP;
 
     infectados := trunc(infectados);
@@ -89,6 +109,48 @@ BEGIN
                                     ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
                             WHERE rownum <= infectados);
 
+    IF(infectados <> 0)THEN
+        tratados := dbms_random.value(1, infectados);
+        DBMS_OUTPUT.put_line ('Tratados:'||tratados);
+        contadorTratados := 1;
+        WHILE (contadorTratados <= tratados)
+        LOOP
+            SELECT personaAleatoria.condicion INTO personaInfectadaTratada
+            FROM (SELECT cp.fk_persona condicion
+                    FROM Condicion_persona cp, Persona p, Lugar estado, Lugar pa
+                    WHERE cp.FK_Condicion = 2
+                    AND cp.fk_persona = p.codigo_persona 
+                    AND p.FK_LUGAR = estado.codigo_lugar
+                    AND estado.fk_lugar = pa.codigo_lugar
+                    AND pa.codigo_lugar = pais
+                    AND p.codigo_persona NOT IN (SELECT fk_persona FROM Persona_Clinica)
+                    ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
+            WHERE rownum = 1;
+            SELECT p.fk_lugar INTO estado FROM persona p WHERE p.codigo_persona = personaInfectadaTratada;
+            SELECT c.codigo_clinica INTO clinica FROM clinica c WHERE c.fk_lugar_clinica = estado;
+            INSERT INTO Persona_Clinica(Tratado_persona_clinica, fk_persona, fk_clinica) VALUES ('SI', personaInfectadaTratada, clinica);
+            contadorTratados := contadorTratados+1;
+        END LOOP;
+
+        noTratados := infectados-tratados;
+        contadorNoTratados := 1;
+        WHILE (contadorNoTratados <= noTratados)
+        LOOP
+            SELECT personaAleatoria.condicion INTO personaInfectadaTratada
+            FROM (SELECT cp.fk_persona condicion
+                    FROM Condicion_persona cp, Persona p, Lugar estado, Lugar pa
+                    WHERE cp.FK_Condicion = 2
+                    AND cp.fk_persona = p.codigo_persona 
+                    AND p.FK_LUGAR = estado.codigo_lugar
+                    AND estado.fk_lugar = pa.codigo_lugar
+                    AND pa.codigo_lugar = pais
+                    AND p.codigo_persona NOT IN (SELECT fk_persona FROM Persona_Clinica)
+                    ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
+            WHERE rownum = 1;
+            INSERT INTO Persona_Clinica(Tratado_persona_clinica, fk_persona) VALUES ('NO', personaInfectadaTratada);
+            contadorNoTratados := contadorNoTratados+1;
+        END LOOP;
+    END IF; 
 END;
 
 
@@ -101,6 +163,14 @@ IS
     infectadosAuxiliar number;
     contadorDias number := 1;
     poblacionSale pls_integer := dbms_random.value(100, poblacion);
+    tratados pls_integer;
+    contadorTratados number;
+    clinica number;
+    estado number;
+    personaInfectadaTratada number;
+    noTratados number;
+    contadorNoTratados number;
+    sanos number;
 BEGIN
     SELECT COUNT(topPersonaAleatoria.persona) INTO infectados
     FROM (SELECT personaAleatoria.persona persona, personaAleatoria.condicion condicion , personaAleatoria.nombre nombre
@@ -115,12 +185,24 @@ BEGIN
             WHERE rownum <= poblacionSale) topPersonaAleatoria
     WHERE topPersonaAleatoria.condicion = 2;
 
+    SELECT COUNT(p.codigo_persona) INTO sanos
+    FROM Persona p, Condicion_persona cp, Lugar estado, Lugar pais
+    WHERE cp.FK_Condicion = 1
+    AND cp.fk_persona = p.codigo_persona 
+    AND p.FK_LUGAR = estado.codigo_lugar
+    AND estado.fk_lugar = pais.codigo_lugar
+    AND pais.codigo_lugar=pais;
+
     infectadosAuxiliar := infectados;
 
-    WHILE (contadorDias <= dias) AND (infectados <= poblacion)
+    WHILE (contadorDias <= dias)
     LOOP
-        infectados := infectados*R0;
-        contadorDias := contadorDias+1;
+        IF (infectados*R0 <= sanos)THEN
+            infectados := infectados*R0;
+            contadorDias := contadorDias+1;
+        ELSE 
+            contadorDias := dias+1;
+        END IF;     
     END LOOP;
 
     infectados := trunc(infectados);
@@ -138,6 +220,48 @@ BEGIN
                                     AND pa.codigo_lugar = pais
                                     ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
                             WHERE rownum <= infectados);
+
+    IF(infectados <> 0)THEN
+        tratados := dbms_random.value(1, infectados);
+        contadorTratados := 1;
+        WHILE (contadorTratados <= tratados)
+        LOOP
+            SELECT personaAleatoria.condicion INTO personaInfectadaTratada
+            FROM (SELECT cp.fk_persona condicion
+                    FROM Condicion_persona cp, Persona p, Lugar estado, Lugar pa
+                    WHERE cp.FK_Condicion = 2
+                    AND cp.fk_persona = p.codigo_persona 
+                    AND p.FK_LUGAR = estado.codigo_lugar
+                    AND estado.fk_lugar = pa.codigo_lugar
+                    AND pa.codigo_lugar = pais
+                    AND p.codigo_persona NOT IN (SELECT fk_persona FROM Persona_Clinica)
+                    ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
+            WHERE rownum = 1;
+            SELECT p.fk_lugar INTO estado FROM persona p WHERE p.codigo_persona = personaInfectadaTratada;
+            SELECT c.codigo_clinica INTO clinica FROM clinica c WHERE c.fk_lugar_clinica = estado;
+            INSERT INTO Persona_Clinica(Tratado_persona_clinica, fk_persona, fk_clinica) VALUES ('SI', personaInfectadaTratada, clinica);
+            contadorTratados := contadorTratados+1;
+        END LOOP;
+
+        noTratados := infectados-tratados;
+        contadorNoTratados := 1;
+        WHILE (contadorNoTratados <= noTratados)
+        LOOP
+            SELECT personaAleatoria.condicion INTO personaInfectadaTratada
+            FROM (SELECT cp.fk_persona condicion
+                    FROM Condicion_persona cp, Persona p, Lugar estado, Lugar pa
+                    WHERE cp.FK_Condicion = 2
+                    AND cp.fk_persona = p.codigo_persona 
+                    AND p.FK_LUGAR = estado.codigo_lugar
+                    AND estado.fk_lugar = pa.codigo_lugar
+                    AND pa.codigo_lugar = pais
+                    AND p.codigo_persona NOT IN (SELECT fk_persona FROM Persona_Clinica)
+                    ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
+            WHERE rownum = 1;
+            INSERT INTO Persona_Clinica(Tratado_persona_clinica, fk_persona) VALUES ('NO', personaInfectadaTratada);
+            contadorNoTratados := contadorNoTratados+1;
+        END LOOP;
+    END IF;
 END;
 
 
