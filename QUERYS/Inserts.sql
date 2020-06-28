@@ -125,3 +125,153 @@ INSERT INTO Sintoma VALUES (13, 'Nauseas');
 INSERT INTO Sintoma VALUES (14, 'Presion en el Pecho');
 INSERT INTO Sintoma VALUES (15, 'Incapacidad para Hablar');
 
+--Clinicas
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(1, 'Hospital Provincial Saturnino Lora',Complemento_direccion('Avenida de los Libertadores Calle 7, Santiago de Cuba '),125,21);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(2, 'Hospital Hermanos Ameijeiras',Complemento_direccion('Calle San Lázaro # 701 esq. a, Padre Varela, 10400'),125,22);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(3, 'Hospital Universitario Clínico Quirúrgico',Complemento_direccion('La Habana'),125,23);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(4, 'Hospital Infantil Norte',Complemento_direccion('Matanzas, Santiago de Cuba'),125,24);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(5, 'Hospital Oncológico',Complemento_direccion('Carretera Central Esq. a Martí, Av de Los Libertadores, Santiago de Cuba 90400 '),125,25);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(6, 'Universitätsklinikum Hamburg-Eppendorf',Complemento_direccion('Hamburg'),125,46);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(7, 'Klinikum der Universität München',Complemento_direccion('Hanover'),125,47);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(8, 'Medizinische Hochschule Hannover',Complemento_direccion('Hamburg'),125,48);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(9, 'Charité Universitätsmedizin Berlin',Complemento_direccion('Berlin'),125,49);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(10, 'Universitätsklinikum Heidelberg',Complemento_direccion('Heidelberg'),125,50);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(11 ,'University of Colorado Hospital ',Complemento_direccion('Aurora, CO'),125,11);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(12,  'The Mount Sinai Hospital',Complemento_direccion('Washington'),125,12);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(13,  'Langone Hospitals',Complemento_direccion('California LA'),125,13);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(14,  'Mayo Clinic - Rochester',Complemento_direccion('Rochester, MN'),125,14);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(15,  'Cleveland Clinic',Complemento_direccion('Cleveland, OH '),125,15);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(16,  'Toronto General (University Health Network)',Complemento_direccion('Toronto'),125,16);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(17,  'Sunnybrook Health Sciences Centre ',Complemento_direccion('Toronto'),125,17);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(18,  'Mount Sinai Hospital',Complemento_direccion('Toronto'),125,18);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(19,  'North York General Hospital',Complemento_direccion('Toronto'),125,19);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(20,  'Shriners Hospitals for Children',Complemento_direccion('Montreal, Quebec'),125,20);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(21,  'Royal Melbourne Hospital - Parkville',Complemento_direccion('Melbourne'),125,56);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(22,  'The Alfred',Complemento_direccion('Melbourne'),125,57);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(23,  'Royal Brisbane & Womens Hospital',Complemento_direccion('Brisbane'),125,58);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(24,  'Royal Prince Alfred Hospital',Complemento_direccion('Sydney'),125,59);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(25,  'Calvary Hospital',Complemento_direccion('Bruce'),125,60);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(26,  'Hospital Conde S. Januário',Complemento_direccion('Macao'),125,36);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(27,  'Huoshanshen',Complemento_direccion('Wuhan '),125,37);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(28,  'Bayley and Jackson Medical',Complemento_direccion('Beijing'),125,38);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(29,  'Beijing International (SOS)',Complemento_direccion('Beijing'),125,39);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(30,  'Beijing United Family Clinic',Complemento_direccion(' Beijing'),125,40);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(31,  'Hospital Groote Schuur ',Complemento_direccion('Cape Town'),125,26);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(32,  'Chris Hani Baragwanath Academic Hospital',Complemento_direccion('Johannesburg'),125,27);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(33,  'Somerset Hospital',Complemento_direccion('Cape Town'),125,28);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(34,  'The Red Cross War Memorial Children’s Hospital',Complemento_direccion('Cape Town'),125,29);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(35,  'Netcare N1 City Hospital',Complemento_direccion('Cape Town'),125,30);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(36,  'Hospital Universitario Fundación Jiménez Díaz',Complemento_direccion('Madrid'),125,51);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(37,  'Hospital Universitario La Paz',Complemento_direccion('Madrid'),125,52);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(38,  'Hospital Universitario Central de Asturias',Complemento_direccion('Asturias'),125,53);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(39,  'Hospital Universitario Virgen del Rocío',Complemento_direccion('Sevilla'),125,54);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(40,  'Hospital Psiquiátrico ',Complemento_direccion(' Madrid'),125,55);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(41,  'Cleveland Clinic',Complemento_direccion('Cleveland, OH '),125,41);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(42,  'Hospital clínico central',Complemento_direccion('Moscú'),125,42);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(43,  'Oymyakonskaya Tsentralnaya Rayonnaya Bol nitsa',Complemento_direccion('Sakha Republic'),125,43);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(44,  'Klinicheskiy Gospital Mediko-Sanitarnoy Chasti Mvd Po Respublike Tatarstan',Complemento_direccion('Kazan'),125,44);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(45,  'St Petersburg Psychiatric Hospital of Specialized Type with Intense Observation ',Complemento_direccion('St Petersburg'),125,45);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(46,  'Hospital José María Vargas ',Complemento_direccion('Vargas'),125,31);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(47,  'Hospital Universitario de Caracas',Complemento_direccion('Distrito Capital'),125,32);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(48,  'Hospital de Niños Dr. J. M. de los Ríos ',Complemento_direccion('Zulia'),125,33);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(49,  'Hospital San Juan de Dios',Complemento_direccion('Aragua'),125,34);
+
+INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
+(50,  'Hospital San José de las Hermanitas de los Pobres',Complemento_direccion('Miranda'),125,35);
