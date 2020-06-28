@@ -193,7 +193,7 @@ INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas
 (22,  'The Alfred',Complemento_direccion('Melbourne'),125,57);
 
 INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
-(23,  'Royal Brisbane & Womens Hospital',Complemento_direccion('Brisbane'),125,58);
+(23,  'Royal Brisbane Womens Hospital',Complemento_direccion('Brisbane'),125,58);
 
 INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
 (24,  'Royal Prince Alfred Hospital',Complemento_direccion('Sydney'),125,59);
