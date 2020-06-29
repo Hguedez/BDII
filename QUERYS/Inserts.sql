@@ -447,3 +447,39 @@ INSERT INTO Frontera VALUES (13,Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_
 INSERT INTO Frontera VALUES (14,Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-05-09', 'YYYY-MM-DD'), TO_DATE('2020-06-06', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-05-09', 'YYYY-MM-DD'), TO_DATE('2020-06-06', 'YYYY-MM-DD'))),8);
 INSERT INTO Frontera VALUES (15,Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-05-05', 'YYYY-MM-DD'), TO_DATE('2020-06-04', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-05-05', 'YYYY-MM-DD'), TO_DATE('2020-06-04', 'YYYY-MM-DD'))),9);
 
+-- Ayuda_Humanitaria 
+INSERT INTO Ayuda_Humanitaria VALUES (1,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 100000,1,10);
+INSERT INTO Ayuda_Humanitaria VALUES (2,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 56700,2,9);
+INSERT INTO Ayuda_Humanitaria VALUES (3,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 186700,3,8);
+INSERT INTO Ayuda_Humanitaria VALUES (4,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 1000,4,7);
+INSERT INTO Ayuda_Humanitaria VALUES (5,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 1000000,5,6);
+INSERT INTO Ayuda_Humanitaria VALUES (6,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 245000,10,9);
+INSERT INTO Ayuda_Humanitaria VALUES (7,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 112445,8,2);
+INSERT INTO Ayuda_Humanitaria VALUES (8,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 345600,7,3);
+INSERT INTO Ayuda_Humanitaria VALUES (9,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 347899,4,9);
+INSERT INTO Ayuda_Humanitaria VALUES (10,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 98745,2,6);
+INSERT INTO Ayuda_Humanitaria VALUES (11,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 86540,3,7);
+INSERT INTO Ayuda_Humanitaria VALUES (12,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 643000,4,8);
+INSERT INTO Ayuda_Humanitaria VALUES (13,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 123400,5,1);
+INSERT INTO Ayuda_Humanitaria VALUES (14,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 12000,7,4);
+INSERT INTO Ayuda_Humanitaria VALUES (15,TO_DATE('2020-05-01', 'YYYY-MM-DD'), 674932,9,2);
+
+
+
+-- Ayuda_insumo 
+
+INSERT INTO Ayuda_Insumo VALUES (1,15,1,1);
+INSERT INTO Ayuda_Insumo VALUES (2,26,2,2);
+INSERT INTO Ayuda_Insumo VALUES (3,116,3,3);
+INSERT INTO Ayuda_Insumo VALUES (4,245,4,4);
+INSERT INTO Ayuda_Insumo VALUES (5,432,5,5);
+INSERT INTO Ayuda_Insumo VALUES (6,543,6,6);
+INSERT INTO Ayuda_Insumo VALUES (7,112,7,7);
+INSERT INTO Ayuda_Insumo VALUES (8,189,8,8);
+INSERT INTO Ayuda_Insumo VALUES (9,768,9,9);
+INSERT INTO Ayuda_Insumo VALUES (10,1000,10,10);
+INSERT INTO Ayuda_Insumo VALUES (11,567,11,11);
+INSERT INTO Ayuda_Insumo VALUES (12,345,12,12);
+INSERT INTO Ayuda_Insumo VALUES (13,2334,13,13);
+INSERT INTO Ayuda_Insumo VALUES (14,1356,14,14);
+INSERT INTO Ayuda_Insumo VALUES (15,564,15,15);
