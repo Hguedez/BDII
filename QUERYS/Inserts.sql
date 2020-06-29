@@ -370,3 +370,42 @@ INSERT INTO Vuelo VALUES (87,'United Airlines',TO_DATE('2020-05-25', 'YYYY-MM-DD
 INSERT INTO Vuelo VALUES (88,'Norwegian',TO_DATE('2020-05-26', 'YYYY-MM-DD'),10,7);
 INSERT INTO Vuelo VALUES (89,'FlyBondi',TO_DATE('2020-05-27', 'YYYY-MM-DD'),10,8);
 INSERT INTO Vuelo VALUES (90,'AirFrance',TO_DATE('2020-05-28', 'YYYY-MM-DD'),10,9);
+
+
+---------------------------------------------------------------------------Insumo-------------------------------------------------------------------
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Tapa boca','El tapabocas debe cubrir nariz y boca. Este debe quedar ajustado a la cara. La parte con color debe ponerse hacia afuera, puesto que es impermeable y es la barrera para los agentes externos. Colocárselo con el impermeable hacia adentro dificulta respirar y favorece la absorción de partículas.');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Jabon Antibacterial','El Jabón Líquido para Manos está diseñado para la limpieza y humectación de las manos, sin provocar
+resequedad después de su aplicación. Disponible en diferentes aromas y neutro');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Vitamina C','La vitamina C (ácido ascórbico) es una vitamina que el cuerpo necesita para formar los vasos sanguíneos, los cartílagos, los músculos y el colágeno en los huesos. También es vital en el proceso de curación del cuerpo.');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Alcohol','se usa en el secado de oídos para evitar la otitis externa. Diluido, se utiliza como desinfectante de manos. También es posible emplearlo como antiséptico o alcohol para frotar (de la misma manera que se emplearía el alcohol etílico desnaturalizado).');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Base De Pared Con Ruedas','Base para colocar bolsas de Suero');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Concentrador De Oxigeno Nebulizador','Este equipo se encarga de suministrar oxígeno de elevada pureza, libre de aditivos y agentes contaminantes, fresco y natural. Tiene un asa superior para facilitar su transporte.');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Guantes quirúrgicos','son guantes desechables utilizados durante procedimientos médicos que impiden la contaminación cruzada entre el personal de la salud y los pacientes.​');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Tanques de oxígeno','Un cilindro de oxígeno es un recipiente de almacenaje de dioxígeno, tanto bajo presión en cilindros de gas o como oxígeno líquido en tanques de almacenaje criogénicos.');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Jeringa','Consiste en un émbolo insertado en un tubo que tiene una pequeña apertura en uno de sus extremos por donde se expulsa el contenido de dicho tubo.');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Vendas','Consiste en paños de lino o de lana unidas entre sí y colocadas en un orden racional.');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Cateter','Un catéter es, en medicina, un dispositivo con forma de tubo estrecho y alargado que puede ser introducido dentro de un tejido o vena.');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Kit de Despistaje','Kit para detectar casos de Covid-19');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Bolsas respiratorias','Bolsa de reanimación 500 ml, autoinflable con válvula paciente,
+válvula de peep, válvula de admisión, válvula reservorio, con máscara pediátrica transparente, anatómica, siliconizada con tubo de
+conexión a oxígeno sin rosca');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Careta de Proteccion Visual','Destinado a proteger los ojos y la cara del trabajador ante riesgos externos tales como la proyección de partículas o cuerpos sólidos.');
+INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Antivirales','Los antivirales son un tipo de fármaco usado para el tratamiento de infecciones producidas por virus.');
+
+------------------------------------------------------- Proveedor_Internet------------------------------------
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Level 3',Complemento_direccion('794 Maywood Center'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('GTT',Complemento_direccion('59 Oxford Plaza'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('T-Mobile',Complemento_direccion('184 Redwing Parkway'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Verizon Business',Complemento_direccion('14629 Lien Park'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('KPN International',Complemento_direccion('6390 Acker Circle'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('NTT Communications',Complemento_direccion('47 Saint Paul Alley'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Qwest',Complemento_direccion('31464 Carioca Trail'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Congent',Complemento_direccion('5535 Wayridge Court'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Orange',Complemento_direccion('84933 Anniversary Road'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Sprint',Complemento_direccion('47 Macpherson Lane'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Global Telecom',Complemento_direccion('00960 Larry Lane'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Teleglobe',Complemento_direccion('79716 Blaine Avenue'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Deutsche Telekom',Complemento_direccion('3547 Cherokee Place'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Telecom Italia',Complemento_direccion('5158 Meadow Valley Center'));
+INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('CANTV',Complemento_direccion('69 Hollow Ridge Drive'));
+
