@@ -174,6 +174,325 @@ BEGIN
 END;
 
 
+--REPORTE 2
+CREATE OR REPLACE PROCEDURE Reporte2(CursorReporte2 out SYS_REFCURSOR, paisDado varchar, estadoDado varchar, edadDada number)
+IS  
+    anoActual varchar(20);
+    anoNacimiento varchar(20);
+    inicioAno varchar(20) :='01/01/';
+    finAno varchar(20) :='31/12/';
+    a1 varchar(20);
+    a2 varchar(20);
+BEGIN 
+    IF (paisDado IS NOT NULL) AND (estadoDado IS NULL) AND (edadDada IS NULL) THEN        
+        OPEN CursorReporte2 FOR
+        SELECT tabla.codigo codigoPersona,
+                (SELECT p.foto_persona FROM persona p WHERE p.codigo_persona = tabla.codigo) foto, 
+                (SELECT p.datos_basicos.primer_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) primerNombre,
+                (SELECT p.datos_basicos.segundo_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoNombre,
+                (SELECT p.datos_basicos.primer_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) primerApellido,
+                (SELECT p.datos_basicos.segundo_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoApellido,
+                (SELECT (Extract(YEAR from sysdate)-Extract(YEAR from p.datos_basicos.fecha_nacimiento)) FROM persona p WHERE p.codigo_persona = tabla.codigo) Edad,
+                (SELECT p.genero FROM persona p WHERE p.codigo_persona = tabla.codigo) genero,
+                (SELECT l.bandera_lugar FROM lugar l WHERE l.codigo_lugar = tabla.pais) bandera,
+                (SELECT l.nombre_lugar FROM lugar l WHERE l.codigo_lugar = tabla.estado) estado,
+                (SELECT pc.Tratado_persona_clinica from Persona_clinica pc where pc.FK_persona = tabla.codigo) tratado,
+                    tabla.patologias patologias,
+                    tabla2.sintomas sintomas,
+                    tabla2.fecha fecha              
+            FROM (SELECT pe.codigo_persona codigo, pa.codigo_lugar pais, es.codigo_lugar estado, listagg( pat.nombre_patologia, ',') WITHIN GROUP (ORDER BY pat.nombre_patologia) patologias              
+                    FROM Lugar es, Lugar pa,
+                    Persona pe LEFT OUTER JOIN persona_patologia ppa ON ppa.fk_persona = pe.codigo_persona LEFT OUTER JOIN patologia pat ON ppa.fk_patologia = pat.codigo_patologia
+                    WHERE  pe.fk_lugar = es.codigo_lugar 
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND pa.nombre_lugar = paisDado
+                    GROUP BY pe.codigo_persona, pa.codigo_lugar, es.codigo_lugar) tabla,
+                (SELECT pe.codigo_persona codigo, es.codigo_lugar estado, min(ps.fecha_sintoma) fecha, listagg( s.Nombre_sintoma, ',') WITHIN GROUP (ORDER BY s.Nombre_sintoma) sintomas
+                    FROM Lugar es, Lugar pa, Persona_sintoma ps, Sintoma s, Persona pe
+                    WHERE pe.FK_lugar = es.codigo_lugar
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND pa.nombre_lugar = paisDado
+                    AND ps.FK_Persona = Pe.codigo_persona
+                    AND ps.FK_Sintoma = s.Codigo_sintoma
+                    GROUP BY pe.codigo_persona, es.codigo_lugar) tabla2, condicion_persona cp
+            WHERE tabla.codigo = tabla2.codigo
+            AND(cp.fk_Condicion = 2 OR cp.fk_Condicion = 1)
+            AND cp.fk_persona = tabla.codigo
+            AND tabla.estado = tabla2.estado;
+
+        ELSIF (paisDado IS NULL) AND (estadoDado IS NOT NULL) AND (edadDada IS NULL) THEN
+            OPEN CursorReporte2 FOR
+            SELECT tabla.codigo codigoPersona,
+                (SELECT p.foto_persona FROM persona p WHERE p.codigo_persona = tabla.codigo) foto, 
+                (SELECT p.datos_basicos.primer_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) primerNombre,
+                (SELECT p.datos_basicos.segundo_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoNombre,
+                (SELECT p.datos_basicos.primer_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) primerApellido,
+                (SELECT p.datos_basicos.segundo_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoApellido,
+                (SELECT (Extract(YEAR from sysdate)-Extract(YEAR from p.datos_basicos.fecha_nacimiento)) FROM persona p WHERE p.codigo_persona = tabla.codigo) Edad,
+                (SELECT p.genero FROM persona p WHERE p.codigo_persona = tabla.codigo) genero,
+                (SELECT l.bandera_lugar FROM lugar l WHERE l.codigo_lugar = tabla.pais) bandera,
+                (SELECT l.nombre_lugar FROM lugar l WHERE l.codigo_lugar = tabla.estado) estado,
+                (SELECT pc.Tratado_persona_clinica from Persona_clinica pc where pc.FK_persona = tabla.codigo) tratado,
+                    tabla.patologias patologias,
+                    tabla2.sintomas sintomas,
+                    tabla2.fecha fecha               
+            FROM (SELECT pe.codigo_persona codigo, pa.codigo_lugar pais, es.codigo_lugar estado, listagg( pat.nombre_patologia, ',') WITHIN GROUP (ORDER BY pat.nombre_patologia) patologias              
+                    FROM Lugar es, Lugar pa,
+                    Persona pe LEFT OUTER JOIN persona_patologia ppa ON ppa.fk_persona = pe.codigo_persona LEFT OUTER JOIN patologia pat ON ppa.fk_patologia = pat.codigo_patologia
+                    WHERE  pe.fk_lugar = es.codigo_lugar 
+                    AND es.nombre_lugar = estadoDado
+                    AND es.fk_lugar = pa.codigo_lugar
+                    GROUP BY pe.codigo_persona, pa.codigo_lugar, es.codigo_lugar) tabla,
+                (SELECT pe.codigo_persona codigo, es.codigo_lugar estado, min(ps.fecha_sintoma) fecha, listagg( s.Nombre_sintoma, ',') WITHIN GROUP (ORDER BY s.Nombre_sintoma) sintomas
+                    FROM Lugar es, Lugar pa, Persona_sintoma ps, Sintoma s, Persona pe
+                    WHERE pe.FK_lugar = es.codigo_lugar
+                    AND es.nombre_lugar = estadoDado
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND ps.FK_Persona = Pe.codigo_persona
+                    AND ps.FK_Sintoma = s.Codigo_sintoma
+                    GROUP BY pe.codigo_persona, es.codigo_lugar) tabla2, condicion_persona cp
+            WHERE tabla.codigo = tabla2.codigo
+            AND(cp.fk_Condicion = 2 OR cp.fk_Condicion = 1)
+            AND cp.fk_persona = tabla.codigo
+            AND tabla.estado = tabla2.estado;
+            
+        ELSIF (paisDado IS NULL) AND (estadoDado IS NULL) AND (edadDada IS NOT NULL) THEN
+            SELECT to_char(sysdate, 'YYYY') INTO anoActual FROM dual;
+            anoNacimiento := anoActual-edadDada;
+            a1 := CONCAT(inicioAno,anoNacimiento);
+            a2 := CONCAT(finAno,anoNacimiento);
+            OPEN CursorReporte2 FOR
+            SELECT tabla.codigo codigoPersona,
+                (SELECT p.foto_persona FROM persona p WHERE p.codigo_persona = tabla.codigo) foto, 
+                (SELECT p.datos_basicos.primer_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) primerNombre,
+                (SELECT p.datos_basicos.segundo_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoNombre,
+                (SELECT p.datos_basicos.primer_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) primerApellido,
+                (SELECT p.datos_basicos.segundo_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoApellido,
+                (SELECT (Extract(YEAR from sysdate)-Extract(YEAR from p.datos_basicos.fecha_nacimiento)) FROM persona p WHERE p.codigo_persona = tabla.codigo) Edad,
+                (SELECT p.genero FROM persona p WHERE p.codigo_persona = tabla.codigo) genero,
+                (SELECT l.bandera_lugar FROM lugar l WHERE l.codigo_lugar = tabla.pais) bandera,
+                (SELECT l.nombre_lugar FROM lugar l WHERE l.codigo_lugar = tabla.estado) estado,
+                (SELECT pc.Tratado_persona_clinica from Persona_clinica pc where pc.FK_persona = tabla.codigo) tratado,
+                    tabla.patologias patologias,
+                    tabla2.sintomas sintomas,
+                    tabla2.fecha fecha               
+            FROM (SELECT pe.codigo_persona codigo, pa.codigo_lugar pais, es.codigo_lugar estado, listagg( pat.nombre_patologia, ',') WITHIN GROUP (ORDER BY pat.nombre_patologia) patologias              
+                    FROM Lugar es, Lugar pa,
+                    Persona pe LEFT OUTER JOIN persona_patologia ppa ON ppa.fk_persona = pe.codigo_persona LEFT OUTER JOIN patologia pat ON ppa.fk_patologia = pat.codigo_patologia
+                    WHERE pe.fk_lugar = es.codigo_lugar
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND pe.datos_basicos.fecha_nacimiento BETWEEN a1 AND a2
+                    GROUP BY pe.codigo_persona, pa.codigo_lugar, es.codigo_lugar) tabla,
+                (SELECT pe.codigo_persona codigo, es.codigo_lugar estado, min(ps.fecha_sintoma) fecha, listagg( s.Nombre_sintoma, ',') WITHIN GROUP (ORDER BY s.Nombre_sintoma) sintomas
+                    FROM Lugar es, Lugar pa, Persona_sintoma ps, Sintoma s, Persona pe
+                    WHERE pe.fk_lugar = es.codigo_lugar
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND pe.datos_basicos.fecha_nacimiento BETWEEN a1 AND a2
+                    AND ps.FK_Persona = Pe.codigo_persona
+                    AND ps.FK_Sintoma = s.Codigo_sintoma
+                    GROUP BY pe.codigo_persona, es.codigo_lugar) tabla2, condicion_persona cp
+            WHERE tabla.codigo = tabla2.codigo
+            AND(cp.fk_Condicion = 2 OR cp.fk_Condicion = 1)
+            AND cp.fk_persona = tabla.codigo
+            AND tabla.estado = tabla2.estado;
+
+        ELSIF (paisDado IS NOT NULL) AND (estadoDado IS NOT NULL) AND (edadDada IS NULL) THEN
+            OPEN CursorReporte2 FOR
+            SELECT tabla.codigo codigoPersona,
+                (SELECT p.foto_persona FROM persona p WHERE p.codigo_persona = tabla.codigo) foto, 
+                (SELECT p.datos_basicos.primer_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) primerNombre,
+                (SELECT p.datos_basicos.segundo_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoNombre,
+                (SELECT p.datos_basicos.primer_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) primerApellido,
+                (SELECT p.datos_basicos.segundo_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoApellido,
+                (SELECT (Extract(YEAR from sysdate)-Extract(YEAR from p.datos_basicos.fecha_nacimiento)) FROM persona p WHERE p.codigo_persona = tabla.codigo) Edad,
+                (SELECT p.genero FROM persona p WHERE p.codigo_persona = tabla.codigo) genero,
+                (SELECT l.bandera_lugar FROM lugar l WHERE l.codigo_lugar = tabla.pais) bandera,
+                (SELECT l.nombre_lugar FROM lugar l WHERE l.codigo_lugar = tabla.estado) estado,
+                (SELECT pc.Tratado_persona_clinica from Persona_clinica pc where pc.FK_persona = tabla.codigo) tratado,
+                    tabla.patologias patologias,
+                    tabla2.sintomas sintomas,
+                    tabla2.fecha fecha               
+            FROM (SELECT pe.codigo_persona codigo, pa.codigo_lugar pais, es.codigo_lugar estado, listagg( pat.nombre_patologia, ',') WITHIN GROUP (ORDER BY pat.nombre_patologia) patologias              
+                    FROM Lugar es, Lugar pa,
+                    Persona pe LEFT OUTER JOIN persona_patologia ppa ON ppa.fk_persona = pe.codigo_persona LEFT OUTER JOIN patologia pat ON ppa.fk_patologia = pat.codigo_patologia
+                    WHERE  pe.fk_lugar = es.codigo_lugar 
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND es.nombre_lugar = estadoDado
+                    AND pa.nombre_lugar = paisDado
+                    GROUP BY pe.codigo_persona, pa.codigo_lugar, es.codigo_lugar) tabla,
+                (SELECT pe.codigo_persona codigo, es.codigo_lugar estado, min(ps.fecha_sintoma) fecha, listagg( s.Nombre_sintoma, ',') WITHIN GROUP (ORDER BY s.Nombre_sintoma) sintomas
+                    FROM Lugar es, Lugar pa, Persona_sintoma ps, Sintoma s, Persona pe
+                    WHERE pe.FK_lugar = es.codigo_lugar
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND es.nombre_lugar = estadoDado
+                    AND pa.nombre_lugar = paisDado
+                    AND ps.FK_Persona = Pe.codigo_persona
+                    AND ps.FK_Sintoma = s.Codigo_sintoma
+                    GROUP BY pe.codigo_persona, es.codigo_lugar) tabla2, condicion_persona cp
+            WHERE tabla.codigo = tabla2.codigo
+            AND(cp.fk_Condicion = 2 OR cp.fk_Condicion = 1)
+            AND cp.fk_persona = tabla.codigo
+            AND tabla.estado = tabla2.estado;
+
+        ELSIF (paisDado IS NULL) AND (estadoDado IS NOT NULL) AND (edadDada IS NOT NULL) THEN
+            SELECT to_char(sysdate, 'YYYY') INTO anoActual FROM dual;
+            anoNacimiento := anoActual-edadDada;
+            a1 := CONCAT(inicioAno,anoNacimiento);
+            a2 := CONCAT(finAno,anoNacimiento);
+            OPEN CursorReporte2 FOR
+            SELECT tabla.codigo codigoPersona,
+                (SELECT p.foto_persona FROM persona p WHERE p.codigo_persona = tabla.codigo) foto, 
+                (SELECT p.datos_basicos.primer_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) primerNombre,
+                (SELECT p.datos_basicos.segundo_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoNombre,
+                (SELECT p.datos_basicos.primer_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) primerApellido,
+                (SELECT p.datos_basicos.segundo_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoApellido,
+                (SELECT (Extract(YEAR from sysdate)-Extract(YEAR from p.datos_basicos.fecha_nacimiento)) FROM persona p WHERE p.codigo_persona = tabla.codigo) Edad,
+                (SELECT p.genero FROM persona p WHERE p.codigo_persona = tabla.codigo) genero,
+                (SELECT l.bandera_lugar FROM lugar l WHERE l.codigo_lugar = tabla.pais) bandera,
+                (SELECT l.nombre_lugar FROM lugar l WHERE l.codigo_lugar = tabla.estado) estado,
+                (SELECT pc.Tratado_persona_clinica from Persona_clinica pc where pc.FK_persona = tabla.codigo) tratado,
+                    tabla.patologias patologias,
+                    tabla2.sintomas sintomas, 
+                    tabla2.fecha fecha               
+            FROM (SELECT pe.codigo_persona codigo, pa.codigo_lugar pais, es.codigo_lugar estado, listagg( pat.nombre_patologia, ',') WITHIN GROUP (ORDER BY pat.nombre_patologia) patologias              
+                    FROM Lugar es, Lugar pa,
+                    Persona pe LEFT OUTER JOIN persona_patologia ppa ON ppa.fk_persona = pe.codigo_persona LEFT OUTER JOIN patologia pat ON ppa.fk_patologia = pat.codigo_patologia
+                    WHERE  pe.fk_lugar = es.codigo_lugar 
+                    AND es.nombre_lugar = estadoDado
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND pe.datos_basicos.fecha_nacimiento BETWEEN a1 AND a2
+                    GROUP BY pe.codigo_persona, pa.codigo_lugar, es.codigo_lugar) tabla,
+                (SELECT pe.codigo_persona codigo, es.codigo_lugar estado, min(ps.fecha_sintoma) fecha, listagg( s.Nombre_sintoma, ',') WITHIN GROUP (ORDER BY s.Nombre_sintoma) sintomas
+                    FROM Lugar es, Lugar pa, Persona_sintoma ps, Sintoma s, Persona pe
+                    WHERE  pe.fk_lugar = es.codigo_lugar 
+                    AND es.nombre_lugar = estadoDado
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND pe.datos_basicos.fecha_nacimiento BETWEEN a1 AND a2
+                    AND ps.FK_Persona = Pe.codigo_persona
+                    AND ps.FK_Sintoma = s.Codigo_sintoma
+                    GROUP BY pe.codigo_persona, es.codigo_lugar) tabla2, condicion_persona cp
+            WHERE tabla.codigo = tabla2.codigo
+            AND(cp.fk_Condicion = 2 OR cp.fk_Condicion = 1)
+            AND cp.fk_persona = tabla.codigo
+            AND tabla.estado = tabla2.estado;
+
+        ELSIF (paisDado IS NOT NULL) AND (estadoDado IS NULL) AND (edadDada IS NOT NULL) THEN
+            SELECT to_char(sysdate, 'YYYY') INTO anoActual FROM dual;
+            anoNacimiento := anoActual-edadDada;
+            a1 := CONCAT(inicioAno,anoNacimiento);
+            a2 := CONCAT(finAno,anoNacimiento);
+            OPEN CursorReporte2 FOR
+            SELECT tabla.codigo codigoPersona,
+                (SELECT p.foto_persona FROM persona p WHERE p.codigo_persona = tabla.codigo) foto, 
+                (SELECT p.datos_basicos.primer_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) primerNombre,
+                (SELECT p.datos_basicos.segundo_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoNombre,
+                (SELECT p.datos_basicos.primer_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) primerApellido,
+                (SELECT p.datos_basicos.segundo_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoApellido,
+                (SELECT (Extract(YEAR from sysdate)-Extract(YEAR from p.datos_basicos.fecha_nacimiento)) FROM persona p WHERE p.codigo_persona = tabla.codigo) Edad,
+                (SELECT p.genero FROM persona p WHERE p.codigo_persona = tabla.codigo) genero,
+                (SELECT l.bandera_lugar FROM lugar l WHERE l.codigo_lugar = tabla.pais) bandera,
+                (SELECT l.nombre_lugar FROM lugar l WHERE l.codigo_lugar = tabla.estado) estado,
+                (SELECT pc.Tratado_persona_clinica from Persona_clinica pc where pc.FK_persona = tabla.codigo) tratado,
+                    tabla.patologias patologias,
+                    tabla2.sintomas sintomas,
+                    tabla2.fecha fecha               
+            FROM (SELECT pe.codigo_persona codigo, pa.codigo_lugar pais, es.codigo_lugar estado, listagg( pat.nombre_patologia, ',') WITHIN GROUP (ORDER BY pat.nombre_patologia) patologias              
+                    FROM Lugar es, Lugar pa,
+                    Persona pe LEFT OUTER JOIN persona_patologia ppa ON ppa.fk_persona = pe.codigo_persona LEFT OUTER JOIN patologia pat ON ppa.fk_patologia = pat.codigo_patologia
+                    WHERE  pe.fk_lugar = es.codigo_lugar 
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND pa.nombre_lugar = paisDado
+                    AND pe.datos_basicos.fecha_nacimiento BETWEEN a1 AND a2
+                    GROUP BY pe.codigo_persona, pa.codigo_lugar, es.codigo_lugar) tabla,
+                (SELECT pe.codigo_persona codigo, es.codigo_lugar estado, min(ps.fecha_sintoma) fecha, listagg( s.Nombre_sintoma, ',') WITHIN GROUP (ORDER BY s.Nombre_sintoma) sintomas
+                    FROM Lugar es, Lugar pa, Persona_sintoma ps, Sintoma s, Persona pe
+                    WHERE  pe.fk_lugar = es.codigo_lugar 
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND pa.nombre_lugar = paisDado
+                    AND pe.datos_basicos.fecha_nacimiento BETWEEN a1 AND a2
+                    AND ps.FK_Persona = Pe.codigo_persona
+                    AND ps.FK_Sintoma = s.Codigo_sintoma
+                    GROUP BY pe.codigo_persona, es.codigo_lugar) tabla2, condicion_persona cp
+            WHERE tabla.codigo = tabla2.codigo
+            AND(cp.fk_Condicion = 2 OR cp.fk_Condicion = 1)
+            AND cp.fk_persona = tabla.codigo
+            AND tabla.estado = tabla2.estado;
+        
+        ELSIF (paisDado IS NOT NULL) AND (estadoDado IS NOT NULL) AND (edadDada IS NOT NULL) THEN
+            SELECT to_char(sysdate, 'YYYY') INTO anoActual FROM dual;
+            anoNacimiento := anoActual-edadDada;
+            a1 := CONCAT(inicioAno,anoNacimiento);
+            a2 := CONCAT(finAno,anoNacimiento);
+            OPEN CursorReporte2 FOR
+            SELECT tabla.codigo codigoPersona,
+                (SELECT p.foto_persona FROM persona p WHERE p.codigo_persona = tabla.codigo) foto, 
+                (SELECT p.datos_basicos.primer_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) primerNombre,
+                (SELECT p.datos_basicos.segundo_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoNombre,
+                (SELECT p.datos_basicos.primer_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) primerApellido,
+                (SELECT p.datos_basicos.segundo_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoApellido,
+                (SELECT (Extract(YEAR from sysdate)-Extract(YEAR from p.datos_basicos.fecha_nacimiento)) FROM persona p WHERE p.codigo_persona = tabla.codigo) Edad,
+                (SELECT p.genero FROM persona p WHERE p.codigo_persona = tabla.codigo) genero,
+                (SELECT l.bandera_lugar FROM lugar l WHERE l.codigo_lugar = tabla.pais) bandera,
+                (SELECT l.nombre_lugar FROM lugar l WHERE l.codigo_lugar = tabla.estado) estado,
+                (SELECT pc.Tratado_persona_clinica from Persona_clinica pc where pc.FK_persona = tabla.codigo) tratado,
+                    tabla.patologias patologias,
+                    tabla2.sintomas sintomas,
+                    tabla2.fecha fecha               
+            FROM (SELECT pe.codigo_persona codigo, pa.codigo_lugar pais, es.codigo_lugar estado, listagg( pat.nombre_patologia, ',') WITHIN GROUP (ORDER BY pat.nombre_patologia) patologias              
+                    FROM Lugar es, Lugar pa,
+                    Persona pe LEFT OUTER JOIN persona_patologia ppa ON ppa.fk_persona = pe.codigo_persona LEFT OUTER JOIN patologia pat ON ppa.fk_patologia = pat.codigo_patologia
+                    WHERE  pe.fk_lugar = es.codigo_lugar 
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND es.nombre_lugar = estadoDado
+                    AND pa.nombre_lugar = paisDado
+                    AND pe.datos_basicos.fecha_nacimiento BETWEEN a1 AND a2
+                    GROUP BY pe.codigo_persona, pa.codigo_lugar, es.codigo_lugar) tabla,
+                (SELECT pe.codigo_persona codigo, es.codigo_lugar estado, min(ps.fecha_sintoma) fecha, listagg( s.Nombre_sintoma, ',') WITHIN GROUP (ORDER BY s.Nombre_sintoma) sintomas
+                    FROM Lugar es, Lugar pa, Persona_sintoma ps, Sintoma s, Persona pe
+                    WHERE  pe.fk_lugar = es.codigo_lugar 
+                    AND es.fk_lugar = pa.codigo_lugar
+                    AND es.nombre_lugar = estadoDado
+                    AND pa.nombre_lugar = paisDado
+                    AND pe.datos_basicos.fecha_nacimiento BETWEEN a1 AND a2
+                    AND ps.FK_Persona = Pe.codigo_persona
+                    AND ps.FK_Sintoma = s.Codigo_sintoma
+                    GROUP BY pe.codigo_persona, es.codigo_lugar) tabla2, condicion_persona cp
+            WHERE tabla.codigo = tabla2.codigo
+            AND(cp.fk_Condicion = 2 OR cp.fk_Condicion = 1)
+            AND cp.fk_persona = tabla.codigo
+            AND tabla.estado = tabla2.estado;
+        END IF;
+
+END;
+
+
+-- REPORTE 3
+CREATE OR REPLACE PROCEDURE Reporte3(CursorReporte3 out SYS_REFCURSOR, fechaInicio date, fechaFin date)
+IS  
+BEGIN
+    SELECT tabla.codigo codigoPersona,
+            (SELECT p.foto_persona FROM persona p WHERE p.codigo_persona = tabla.codigo) foto, 
+            (SELECT p.datos_basicos.primer_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) primerNombre,
+            (SELECT p.datos_basicos.segundo_nombre FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoNombre,
+            (SELECT p.datos_basicos.primer_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) primerApellido,
+            (SELECT p.datos_basicos.segundo_apellido FROM persona p WHERE p.codigo_persona = tabla.codigo) segundoApellido,
+            (SELECT (Extract(YEAR from sysdate)-Extract(YEAR from p.datos_basicos.fecha_nacimiento)) FROM persona p WHERE p.codigo_persona = tabla.codigo) Edad,
+            (SELECT l.bandera_lugar FROM lugar l WHERE l.codigo_lugar = tabla.pais) bandera,
+    FROM (SELECT p.codigo_persona codigo, pais.codigo_lugar pais, listagg(estado.nombre_lugar, ',') WITHIN GROUP (ORDER BY estado.nombre_lugar) estados
+            FROM vuelo_persona vp, viaje v, p.codigo_persona, lugar estado, lugar pais
+            WHERE v.fk_vuelo_persona = vp.codigo_vuelo_persona
+            AND vp.fk_persona = p.codigo_persona
+            AND vp.fechaInicioFin.fecha_inicio >= fechaInicio 
+            AND vp.fechaInicioFin.fecha_fin <= fechaFin
+            AND estado.codigo_lugar = v.fk_lugar
+            AND estado.fk_lugar = pais.codigo_lugar
+            ORDER BY p.codigo_persona, pais.codigo_lugar);
+
+END;
+
+
+
+
 -- REPORTE 4
 CREATE OR REPLACE PROCEDURE Reporte4(CursorReporte4 out SYS_REFCURSOR, paisDado varchar, estadoDado varchar)
 IS  
@@ -248,4 +567,17 @@ BEGIN
         AND modeloAplicado = Modelo.Nombre_aislamiento 
         AND lm.FK_Modelo_Aislamiento = Modelo.Codigo_aislamiento;  
     END IF;
+END;
+
+
+
+CREATE OR REPLACE PROCEDURE Reporte6 (cursorReporte6 OUT SYS_REFCURSOR, paisDado varchar, fechaInicio date, fechaFin date)
+IS
+BEGIN
+    OPEN cursorReporte6 FOR
+    SELECT pais.nombre_lugar, ni.fecha fechaInfectado, ni.cantidad cantidadInfectado
+    FROM Numero_Infectados ni, lugar pais
+    WHERE ni.fecha BETWEEN fechaInicio AND fechaFin
+    AND ni.fk_lugar = pais.codigo_lugar
+    AND pais.nombre_lugar = paisDado;
 END;

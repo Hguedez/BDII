@@ -1,9 +1,14 @@
 CREATE OR REPLACE PROCEDURE Simulacion(dias number)
 IS
-    
+    codigoFecha number;
+    fechaActual date;
 BEGIN
     Infecciones(dias);
-    Recuperaciones(dias);    
+    Recuperaciones(dias); 
+
+    SELECT MAX(codigo_fecha) INTO codigoFecha FROM fecha_actual; 
+    SELECT fecha_actual INTO fechaActual FROM fecha_actual WHERE codigo_fecha = codigoFecha;
+    INSERT INTO Fecha_Actual (fecha_actual) VALUES (fechaActual+dias);   
 END;
 
 execute Simulacion(30); 
@@ -57,6 +62,10 @@ IS
     noTratados number;
     contadorNoTratados number;
     sanos number;
+    auxiliar number;
+    cantidad number;
+    codigoFecha number;
+    fechaActual date;
 BEGIN
     poblacionSale := trunc(poblacion/8);                
 
@@ -83,10 +92,16 @@ BEGIN
 
     infectadosAuxiliar := infectados;
 
+    SELECT MAX(codigo_fecha) INTO codigoFecha FROM fecha_actual; 
+    SELECT fecha_actual INTO fechaActual FROM fecha_actual WHERE codigo_fecha = codigoFecha;
+
     WHILE (contadorDias <= dias)
     LOOP
         IF (infectados*R0 <= sanos)THEN
+            auxiliar := infectados;
             infectados := infectados*R0;
+            cantidad := infectados-auxiliar;
+            INSERT INTO Numero_Infectados (fk_lugar, fecha, cantidad) VALUES (pais, fechaActual+contadorDias, trunc(cantidad)); 
             contadorDias := contadorDias+1;
         ELSE 
             contadorDias := dias+1;
@@ -155,7 +170,6 @@ END;
 
 
 
-
 CREATE OR REPLACE PROCEDURE LibreMovilidad(dias number, pais number, poblacion number)
 IS
     R0 float := 1.2;
@@ -171,6 +185,10 @@ IS
     noTratados number;
     contadorNoTratados number;
     sanos number;
+    auxiliar number;
+    cantidad number;
+    codigoFecha number;
+    fechaActual date;
 BEGIN
     SELECT COUNT(topPersonaAleatoria.persona) INTO infectados
     FROM (SELECT personaAleatoria.persona persona, personaAleatoria.condicion condicion , personaAleatoria.nombre nombre
@@ -195,10 +213,16 @@ BEGIN
 
     infectadosAuxiliar := infectados;
 
+    SELECT MAX(codigo_fecha) INTO codigoFecha FROM fecha_actual; 
+    SELECT fecha_actual INTO fechaActual FROM fecha_actual WHERE codigo_fecha = codigoFecha;
+
     WHILE (contadorDias <= dias)
     LOOP
         IF (infectados*R0 <= sanos)THEN
+            auxiliar := infectados;
             infectados := infectados*R0;
+            cantidad := infectados-auxiliar;
+            INSERT INTO Numero_Infectados (fk_lugar, fecha, cantidad) VALUES (pais, fechaActual+contadorDias, trunc(cantidad)); 
             contadorDias := contadorDias+1;
         ELSE 
             contadorDias := dias+1;
@@ -348,4 +372,104 @@ BEGIN
         contadorDias := contadorDias+1;
     END LOOP;
 
+END;
+
+
+
+--VIAJES
+
+CREATE OR REPLACE PROCEDURE Viajes(dias number)
+IS  
+    cantidadPersona number;
+    vuelos number;
+    idVuelaPersona number;
+    maximoPersonaVuela pls_integer;
+    pais number;
+    numeroVuelo number;
+    diaViaje number := 1;
+    duracionViaje pls_integer;
+    paisDestino number;
+    estadosVisito pls_integer;
+    contadorEstados number;
+    estado number;
+    vueloPersona number;
+    fechaActual date;
+    codigoFecha number;
+    fechaInicio date;
+    fechaFin date;
+BEGIN
+    SELECT COUNT(cp.FK_Persona) INTO cantidadPersona
+    FROM Condicion_persona cp, persona p
+    WHERE cp.FK_Condicion <> 4 
+    AND cp.fk_persona = p.codigo_persona
+    AND p.codigo_persona NOT IN (SELECT FK_Persona FROM Vuelo_persona);
+
+    maximoPersonaVuela := dbms_random.value(1, cantidadPersona);
+
+    vuelos := 1;
+    WHILE (vuelos <= maximoPersonaVuela)
+    LOOP
+        SELECT personaAleatoria.persona_vuela INTO idVuelaPersona
+        FROM (SELECT p.codigo_persona persona_vuela
+                FROM Persona p,Condicion_persona cp
+                WHERE cp.FK_Condicion <> 4
+                AND cp.fk_persona = p.codigo_persona
+                AND p.codigo_persona NOT IN (SELECT FK_Persona FROM Vuelo_persona)
+                ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
+        WHERE rownum = 1;
+
+        SELECT pais.codigo_lugar INTO pais 
+        FROM persona p, lugar pais, lugar estado 
+        WHERE p.codigo_persona = idVuelaPersona
+        AND p.fk_lugar = estado.codigo_lugar
+        AND estado.fk_lugar = pais.codigo_lugar;
+
+        SELECT personaAleatoria.vuelo INTO numeroVuelo
+        FROM (SELECT v.numero_vuelo vuelo
+                FROM vuelo v
+                WHERE v.fk_lugar_destino <> pais
+                ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
+        WHERE rownum = 1;
+
+
+        IF (diaViaje > dias) THEN
+            diaViaje := 1;
+        END IF;
+
+        duracionViaje := dbms_random.value(2, 15);
+
+        SELECT MAX(codigo_fecha) INTO codigoFecha FROM fecha_actual; 
+        SELECT fecha_actual INTO fechaActual FROM fecha_actual WHERE codigo_fecha = codigoFecha;
+
+        fechaInicio := fechaActual+diaViaje;
+        fechaFin := fechaActual+diaViaje;
+        fechaFin := fechaFin+duracionViaje;
+
+        INSERT INTO Vuelo_Persona (fecha_inicio, fecha_fin, fk_vuelo, fk_persona) VALUES (TO_DATE(fechaInicio, 'DD-MM-YYYY'), TO_DATE(fechaFin, 'DD-MM-YYYY'), numeroVuelo, idVuelaPersona);
+        
+        SELECT MAX(codigo_vuelo_persona) INTO vueloPersona FROM Vuelo_Persona;
+
+        SELECT v.fk_lugar_destino INTO paisDestino FROM vuelo v WHERE v.numero_vuelo = numeroVuelo;
+
+        estadosVisito := dbms_random.value(1, 5);
+        contadorEstados := 1;
+
+        WHILE (contadorEstados <= estadosVisito)
+        LOOP
+            SELECT personaAleatoria.estado INTO estado
+            FROM (SELECT estado.codigo_lugar estado
+                    FROM lugar estado, lugar pais
+                    WHERE estado.fk_lugar = pais.codigo_lugar
+                    AND pais.codigo_lugar = paisDestino
+                    AND estado.codigo_lugar NOT IN (SELECT v.fk_lugar FROM Viaje v WHERE fk_vuelo_persona = vueloPersona)
+                    ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
+            WHERE rownum = 1;
+
+            INSERT INTO Viaje (fk_lugar, fk_vuelo_persona) VALUES (estado, vueloPersona);
+            contadorEstados := contadorEstados+1;
+        END LOOP; 
+
+        diaViaje := diaViaje+1;
+        vuelos := vuelos+1;
+    END LOOP;
 END;
