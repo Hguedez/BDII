@@ -88,7 +88,11 @@ INSERT INTO Lugar_Modelo VALUES (7, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fe
 INSERT INTO Lugar_Modelo VALUES (8, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD'))), 2, 8);
 INSERT INTO Lugar_Modelo VALUES (9, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD'))), 1, 9);
 INSERT INTO Lugar_Modelo VALUES (10, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD'))), 2, 10);
-
+INSERT INTO Lugar_Modelo VALUES (11, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-07-25', 'YYYY-MM-DD'), TO_DATE('2020-08-25', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-07-25', 'YYYY-MM-DD'), TO_DATE('2020-08-25', 'YYYY-MM-DD'))), 1, 2);
+INSERT INTO Lugar_Modelo VALUES (12, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-07-26', 'YYYY-MM-DD'), TO_DATE('2020-08-26', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-07-26', 'YYYY-MM-DD'), TO_DATE('2020-08-26', 'YYYY-MM-DD'))), 2, 3);
+INSERT INTO Lugar_Modelo VALUES (13, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-07-27', 'YYYY-MM-DD'), TO_DATE('2020-08-27', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-07-27', 'YYYY-MM-DD'), TO_DATE('2020-08-27', 'YYYY-MM-DD'))), 1, 6);
+INSERT INTO Lugar_Modelo VALUES (14, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-07-28', 'YYYY-MM-DD'), TO_DATE('2020-08-28', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-07-28', 'YYYY-MM-DD'), TO_DATE('2020-08-28', 'YYYY-MM-DD'))), 2, 7);
+INSERT INTO Lugar_Modelo VALUES (15, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-07-29', 'YYYY-MM-DD'), TO_DATE('2020-08-29', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-07-29', 'YYYY-MM-DD'), TO_DATE('2020-08-29', 'YYYY-MM-DD'))), 1, 10);
 
 --PATOLOGIA
 INSERT INTO Patologia VALUES (1, 'Neumonia');
