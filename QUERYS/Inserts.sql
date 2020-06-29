@@ -413,3 +413,20 @@ INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('De
 INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('Telecom Italia',Complemento_direccion('5158 Meadow Valley Center'));
 INSERT INTO Proveedor_Internet(Nombre_proveedor,Direccion_proveedor) values ('CANTV',Complemento_direccion('69 Hollow Ridge Drive'));
 
+-- Lugar_Proveedor --
+INSERT INTO Lugar_Proveedor VALUES (1,TO_DATE('2020-05-01','YYYY-MM-DD'),'2 MB','4 MB',3,1,1);
+INSERT INTO Lugar_Proveedor VALUES (2,TO_DATE('2020-05-02','YYYY-MM-DD'),'1 MB','1.5 MB',1,2,2);
+INSERT INTO Lugar_Proveedor VALUES (3,TO_DATE('2020-05-03','YYYY-MM-DD'),'0.5 MB','1 MB',10,3,3);
+INSERT INTO Lugar_Proveedor VALUES (4,TO_DATE('2020-05-04','YYYY-MM-DD'),'0.2 MB','0.4 MB',5,4,4);
+INSERT INTO Lugar_Proveedor VALUES (5,TO_DATE('2020-05-05','YYYY-MM-DD'),'6 MB','12 MB',4,5,5);
+INSERT INTO Lugar_Proveedor VALUES (6,TO_DATE('2020-05-06','YYYY-MM-DD'),'10 MB','15 MB',6,6,6);
+INSERT INTO Lugar_Proveedor VALUES (7,TO_DATE('2020-05-07','YYYY-MM-DD'),'12 MB','20 MB',2,7,7);
+INSERT INTO Lugar_Proveedor VALUES (8,TO_DATE('2020-05-08','YYYY-MM-DD'),'8 MB','16 MB',7,8,7);
+INSERT INTO Lugar_Proveedor VALUES (9,TO_DATE('2020-05-09','YYYY-MM-DD'),'9 MB','17 MB',9,9,8);
+INSERT INTO Lugar_Proveedor VALUES (10,TO_DATE('2020-05-10','YYYY-MM-DD'),'10 MB','19 MB',11,10,9);
+INSERT INTO Lugar_Proveedor VALUES (11,TO_DATE('2020-05-11','YYYY-MM-DD'),'10 MB','22 MB',12,11,10);
+INSERT INTO Lugar_Proveedor VALUES (12,TO_DATE('2020-05-12','YYYY-MM-DD'),'3.5 MB','7 MB',15,12,1);
+INSERT INTO Lugar_Proveedor VALUES (13,TO_DATE('2020-05-13','YYYY-MM-DD'),'4.5 MB','9 MB',17,13,2);
+INSERT INTO Lugar_Proveedor VALUES (14,TO_DATE('2020-05-14','YYYY-MM-DD'),'25 MB','50 MB',1,14,5);
+INSERT INTO Lugar_Proveedor VALUES (15,TO_DATE('2020-05-15','YYYY-MM-DD'),'5 MB','11 MB',7,15,8);
+
