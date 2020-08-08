@@ -5,6 +5,7 @@ IS
 BEGIN
     Infecciones(dias);
     Recuperaciones(dias); 
+    Viajes(dias);
 
     SELECT MAX(codigo_fecha) INTO codigoFecha FROM fecha_actual; 
     SELECT fecha_actual INTO fechaActual FROM fecha_actual WHERE codigo_fecha = codigoFecha;
@@ -42,6 +43,7 @@ BEGIN
             UnoCadaOcho(dias, pais, poblacion);
         END IF;
 
+        DBMS_OUTPUT.PUT_LINE(' ');
         pais := pais+1;
     END LOOP;
 END;
@@ -66,6 +68,9 @@ IS
     cantidad number;
     codigoFecha number;
     fechaActual date;
+    modelo number;
+    nombrePais varchar(100);
+    nombreModelo varchar(300);
 BEGIN
     poblacionSale := trunc(poblacion/8);                
 
@@ -110,6 +115,17 @@ BEGIN
 
     infectados := trunc(infectados);
     infectados := infectados-infectadosAuxiliar;
+
+    SELECT MAX(m.codigo_aislamiento) INTO modelo 
+    FROM Modelo_Aislamiento m, Lugar_Modelo lm 
+    WHERE lm.fk_lugar = pais 
+    AND m.codigo_aislamiento = lm.fk_modelo_aislamiento;
+
+    SELECT m.nombre_aislamiento INTO nombreModelo FROM Modelo_Aislamiento m WHERE m.codigo_aislamiento = modelo;
+
+    SELECT nombre_lugar INTO nombrePais FROM lugar WHERE codigo_lugar=pais;
+
+    DBMS_OUTPUT.PUT_LINE('El numero de personas Infectadas en los ultimos '||dias||' dias en '||nombrePais||' con el modelo de aislamiento '||nombreModelo||' fueron: '||infectados);
         
     UPDATE Condicion_Persona
     SET fk_condicion = 2
@@ -126,7 +142,6 @@ BEGIN
 
     IF(infectados <> 0)THEN
         tratados := dbms_random.value(1, infectados);
-        DBMS_OUTPUT.put_line ('Tratados:'||tratados);
         contadorTratados := 1;
         WHILE (contadorTratados <= tratados)
         LOOP
@@ -189,6 +204,9 @@ IS
     cantidad number;
     codigoFecha number;
     fechaActual date;
+    modelo number;
+    nombrePais varchar(100);
+    nombreModelo varchar(300);
 BEGIN
     SELECT COUNT(topPersonaAleatoria.persona) INTO infectados
     FROM (SELECT personaAleatoria.persona persona, personaAleatoria.condicion condicion , personaAleatoria.nombre nombre
@@ -231,6 +249,18 @@ BEGIN
 
     infectados := trunc(infectados);
     infectados := infectados-infectadosAuxiliar;
+
+    SELECT MAX(m.codigo_aislamiento) INTO modelo 
+    FROM Modelo_Aislamiento m, Lugar_Modelo lm 
+    WHERE lm.fk_lugar = pais 
+    AND m.codigo_aislamiento = lm.fk_modelo_aislamiento;
+
+    SELECT m.nombre_aislamiento INTO nombreModelo FROM Modelo_Aislamiento m WHERE m.codigo_aislamiento = modelo;
+
+    SELECT nombre_lugar INTO nombrePais FROM lugar WHERE codigo_lugar=pais;
+
+    DBMS_OUTPUT.PUT_LINE('El numero de personas Infectadas en los ultimos '||dias||' dias en '||nombrePais||' con el modelo de aislamiento '||nombreModelo||' fueron: '||infectados);
+       
 
     UPDATE Condicion_Persona
     SET fk_condicion = 2
@@ -333,6 +363,8 @@ IS
     porcentajeSubida number;
     porcentajeBajada number;
     porcentaje number;
+    personasRecuperadas number := 0;
+    personasFallecidas number := 0;
 BEGIN
     porcentaje := porcentajeRecuperacion;                                              
     IF (porcentajeRecuperacion = 80)THEN
@@ -361,17 +393,16 @@ BEGIN
             WHERE fk_persona = persona;
             contadorDias := dias;
             flag := 1;
-        ELSIF (porcentaje <= 20)THEN --FALLECE
+        ELSIF (porcentaje <= 30)THEN --FALLECE
             UPDATE Condicion_Persona 
             SET fk_condicion = 4
             WHERE fk_persona = persona;
-            contadorDias := dias;
+            contadorDias := dias;    
             flag := 1;
         END IF;
 
         contadorDias := contadorDias+1;
     END LOOP;
-
 END;
 
 
@@ -384,7 +415,7 @@ IS
     vuelos number;
     idVuelaPersona number;
     maximoPersonaVuela pls_integer;
-    pais number;
+    estadoVive number;
     numeroVuelo number;
     diaViaje number := 1;
     duracionViaje pls_integer;
@@ -397,6 +428,7 @@ IS
     codigoFecha number;
     fechaInicio date;
     fechaFin date;
+    estadoDestino number;
 BEGIN
     SELECT COUNT(cp.FK_Persona) INTO cantidadPersona
     FROM Condicion_persona cp, persona p
@@ -405,6 +437,10 @@ BEGIN
     AND p.codigo_persona NOT IN (SELECT FK_Persona FROM Vuelo_persona);
 
     maximoPersonaVuela := dbms_random.value(1, cantidadPersona);
+    SELECT MAX(codigo_fecha) INTO codigoFecha FROM fecha_actual; 
+    SELECT fecha_actual INTO fechaActual FROM fecha_actual WHERE codigo_fecha = codigoFecha;
+
+    DBMS_OUTPUT.put_line ('El numero de Viajes transcurridos durante los '||dias||' dias son: '||maximoPersonaVuela);      
 
     vuelos := 1;
     WHILE (vuelos <= maximoPersonaVuela)
@@ -418,16 +454,15 @@ BEGIN
                 ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
         WHERE rownum = 1;
 
-        SELECT pais.codigo_lugar INTO pais 
-        FROM persona p, lugar pais, lugar estado 
+        SELECT e.codigo_lugar INTO estadoVive 
+        FROM persona p, lugar e 
         WHERE p.codigo_persona = idVuelaPersona
-        AND p.fk_lugar = estado.codigo_lugar
-        AND estado.fk_lugar = pais.codigo_lugar;
+        AND p.fk_lugar = e.codigo_lugar;
 
         SELECT personaAleatoria.vuelo INTO numeroVuelo
         FROM (SELECT v.numero_vuelo vuelo
                 FROM vuelo v
-                WHERE v.fk_lugar_destino <> pais
+                WHERE v.fk_lugar_destino <> estadoVive
                 ORDER BY DBMS_RANDOM.RANDOM) personaAleatoria
         WHERE rownum = 1;
 
@@ -438,18 +473,17 @@ BEGIN
 
         duracionViaje := dbms_random.value(2, 15);
 
-        SELECT MAX(codigo_fecha) INTO codigoFecha FROM fecha_actual; 
-        SELECT fecha_actual INTO fechaActual FROM fecha_actual WHERE codigo_fecha = codigoFecha;
-
         fechaInicio := fechaActual+diaViaje;
         fechaFin := fechaActual+diaViaje;
         fechaFin := fechaFin+duracionViaje;
 
-        INSERT INTO Vuelo_Persona (fecha_inicio, fecha_fin, fk_vuelo, fk_persona) VALUES (TO_DATE(fechaInicio, 'DD-MM-YYYY'), TO_DATE(fechaFin, 'DD-MM-YYYY'), numeroVuelo, idVuelaPersona);
+        INSERT INTO Vuelo_Persona (fecha_inicio, fecha_fin, fk_vuelo, fk_persona) VALUES (fechaInicio, fechaFin, numeroVuelo, idVuelaPersona);
         
         SELECT MAX(codigo_vuelo_persona) INTO vueloPersona FROM Vuelo_Persona;
 
-        SELECT v.fk_lugar_destino INTO paisDestino FROM vuelo v WHERE v.numero_vuelo = numeroVuelo;
+        SELECT v.fk_lugar_destino INTO estadoDestino FROM vuelo v WHERE v.numero_vuelo = numeroVuelo;
+
+        SELECT l.fk_lugar INTO paisDestino FROM lugar l WHERE l.codigo_lugar = estadoDestino;
 
         estadosVisito := dbms_random.value(1, 5);
         contadorEstados := 1;

@@ -88,11 +88,7 @@ INSERT INTO Lugar_Modelo VALUES (7, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fe
 INSERT INTO Lugar_Modelo VALUES (8, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD'))), 2, 8);
 INSERT INTO Lugar_Modelo VALUES (9, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD'))), 1, 9);
 INSERT INTO Lugar_Modelo VALUES (10, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-06-25', 'YYYY-MM-DD'), TO_DATE('2020-09-25', 'YYYY-MM-DD'))), 2, 10);
-INSERT INTO Lugar_Modelo VALUES (11, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-07-25', 'YYYY-MM-DD'), TO_DATE('2020-08-25', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-07-25', 'YYYY-MM-DD'), TO_DATE('2020-08-25', 'YYYY-MM-DD'))), 1, 2);
-INSERT INTO Lugar_Modelo VALUES (12, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-07-26', 'YYYY-MM-DD'), TO_DATE('2020-08-26', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-07-26', 'YYYY-MM-DD'), TO_DATE('2020-08-26', 'YYYY-MM-DD'))), 2, 3);
-INSERT INTO Lugar_Modelo VALUES (13, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-07-27', 'YYYY-MM-DD'), TO_DATE('2020-08-27', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-07-27', 'YYYY-MM-DD'), TO_DATE('2020-08-27', 'YYYY-MM-DD'))), 1, 6);
-INSERT INTO Lugar_Modelo VALUES (14, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-07-28', 'YYYY-MM-DD'), TO_DATE('2020-08-28', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-07-28', 'YYYY-MM-DD'), TO_DATE('2020-08-28', 'YYYY-MM-DD'))), 2, 7);
-INSERT INTO Lugar_Modelo VALUES (15, Fecha_Inicio_Fin(Fecha_Inicio_Fin.validar_fecha_inicio(TO_DATE('2020-07-29', 'YYYY-MM-DD'), TO_DATE('2020-08-29', 'YYYY-MM-DD')), Fecha_Inicio_Fin.validar_fecha_fin(TO_DATE('2020-07-29', 'YYYY-MM-DD'), TO_DATE('2020-08-29', 'YYYY-MM-DD'))), 1, 10);
+
 
 --PATOLOGIA
 INSERT INTO Patologia VALUES (1, 'Neumonia');
@@ -129,7 +125,8 @@ INSERT INTO Sintoma VALUES (13, 'Nauseas');
 INSERT INTO Sintoma VALUES (14, 'Presion en el Pecho');
 INSERT INTO Sintoma VALUES (15, 'Incapacidad para Hablar');
 
---Clinicas
+
+--CLINICA
 INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
 (1, 'Hospital Provincial Saturnino Lora',Complemento_direccion('Avenida de los Libertadores Calle 7, Santiago de Cuba '),125,21);
 
@@ -197,7 +194,7 @@ INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas
 (22,  'The Alfred',Complemento_direccion('Melbourne'),125,57);
 
 INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
-(23,  'Royal Brisbane Womens Hospital',Complemento_direccion('Brisbane'),125,58);
+(23,  'Royal Brisbane y Womens Hospital',Complemento_direccion('Brisbane'),125,58);
 
 INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
 (24,  'Royal Prince Alfred Hospital',Complemento_direccion('Sydney'),125,59);
@@ -280,103 +277,12 @@ INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas
 INSERT INTO Clinica(Codigo_clinica,Nombre_clinica,Direccion_clinica,Numero_camas,FK_Lugar_Clinica) VALUES 
 (50,  'Hospital San José de las Hermanitas de los Pobres',Complemento_direccion('Miranda'),125,35);
 
+--FECHA ACTUAL
+insert into fecha_actual (fecha_actual) values (TO_DATE('2020-06-29', 'YYYY-MM-DD'));
 
 
--- VUELO
-
-INSERT INTO Vuelo VALUES (1,'Aerolineas Argentinas',TO_DATE('2020-05-01', 'YYYY-MM-DD'),1,2);
-INSERT INTO Vuelo VALUES (2,'LATAM',TO_DATE('2020-05-02', 'YYYY-MM-DD'),1,3);
-INSERT INTO Vuelo VALUES (3,'Avianca',TO_DATE('2020-05-03', 'YYYY-MM-DD'),1,4);
-INSERT INTO Vuelo VALUES (4,'Copa Airlines',TO_DATE('2020-05-04', 'YYYY-MM-DD'),1,5);
-INSERT INTO Vuelo VALUES (5,'American Airlines',TO_DATE('2020-05-05', 'YYYY-MM-DD'),1,6);
-INSERT INTO Vuelo VALUES (6,'Delta',TO_DATE('2020-05-06', 'YYYY-MM-DD'),1,7);
-INSERT INTO Vuelo VALUES (7,'United Airlines',TO_DATE('2020-05-07', 'YYYY-MM-DD'),1,8);
-INSERT INTO Vuelo VALUES (8,'Norwegian',TO_DATE('2020-05-08', 'YYYY-MM-DD'),1,9);
-INSERT INTO Vuelo VALUES (9,'FlyBondi',TO_DATE('2020-05-09', 'YYYY-MM-DD'),1,10);
-INSERT INTO Vuelo VALUES (10,'Lufthansa',TO_DATE('2020-05-10', 'YYYY-MM-DD'),2,1);
-INSERT INTO Vuelo VALUES (11,'Aerolineas Argentinas',TO_DATE('2020-05-11', 'YYYY-MM-DD'),2,3);
-INSERT INTO Vuelo VALUES (12,'LATAM',TO_DATE('2020-05-12', 'YYYY-MM-DD'),2,4);
-INSERT INTO Vuelo VALUES (13,'Avianca',TO_DATE('2020-05-13', 'YYYY-MM-DD'),2,5);
-INSERT INTO Vuelo VALUES (14,'Copa Airlines',TO_DATE('2020-05-14', 'YYYY-MM-DD'),2,6);
-INSERT INTO Vuelo VALUES (15,'American Airlines',TO_DATE('2020-05-15', 'YYYY-MM-DD'),2,7);
-INSERT INTO Vuelo VALUES (16,'Delta',TO_DATE('2020-05-16', 'YYYY-MM-DD'),2,8);
-INSERT INTO Vuelo VALUES (17,'United Airlines',TO_DATE('2020-05-17', 'YYYY-MM-DD'),2,9);
-INSERT INTO Vuelo VALUES (18,'Norwegian',TO_DATE('2020-05-18', 'YYYY-MM-DD'),2,10);
-INSERT INTO Vuelo VALUES (19,'FlyBondi',TO_DATE('2020-05-19', 'YYYY-MM-DD'),3,1);
-INSERT INTO Vuelo VALUES (20,'Lufthansa',TO_DATE('2020-05-20', 'YYYY-MM-DD'),3,2);
-INSERT INTO Vuelo VALUES (21,'Aerolineas Argentinas',TO_DATE('2020-05-21', 'YYYY-MM-DD'),3,4);
-INSERT INTO Vuelo VALUES (22,'LATAM',TO_DATE('2020-05-22', 'YYYY-MM-DD'),3,5);
-INSERT INTO Vuelo VALUES (23,'Avianca',TO_DATE('2020-05-23', 'YYYY-MM-DD'),3,6);
-INSERT INTO Vuelo VALUES (24,'Copa Airlines',TO_DATE('2020-05-24', 'YYYY-MM-DD'),3,7);
-INSERT INTO Vuelo VALUES (25,'American Airlines',TO_DATE('2020-05-25', 'YYYY-MM-DD'),3,8);
-INSERT INTO Vuelo VALUES (26,'Delta',TO_DATE('2020-05-26', 'YYYY-MM-DD'),3,9);
-INSERT INTO Vuelo VALUES (27,'United Airlines',TO_DATE('2020-05-27', 'YYYY-MM-DD'),3,10);
-INSERT INTO Vuelo VALUES (28,'Norwegian',TO_DATE('2020-05-28', 'YYYY-MM-DD'),4,1);
-INSERT INTO Vuelo VALUES (29,'FlyBondi',TO_DATE('2020-05-29', 'YYYY-MM-DD'),4,2);
-INSERT INTO Vuelo VALUES (30,'Lufthansa',TO_DATE('2020-05-30', 'YYYY-MM-DD'),4,3);
-INSERT INTO Vuelo VALUES (31,'Aerolineas Argentinas',TO_DATE('2020-05-31', 'YYYY-MM-DD'),4,5);
-INSERT INTO Vuelo VALUES (32,'LATAM',TO_DATE('2020-05-01', 'YYYY-MM-DD'),4,6);
-INSERT INTO Vuelo VALUES (33,'Avianca',TO_DATE('2020-05-02', 'YYYY-MM-DD'),4,7);
-INSERT INTO Vuelo VALUES (34,'Copa Airlines',TO_DATE('2020-05-03', 'YYYY-MM-DD'),4,8);
-INSERT INTO Vuelo VALUES (35,'American Airlines',TO_DATE('2020-05-04', 'YYYY-MM-DD'),4,9);
-INSERT INTO Vuelo VALUES (36,'Delta',TO_DATE('2020-05-05', 'YYYY-MM-DD'),4,10);
-INSERT INTO Vuelo VALUES (37,'United Airlines',TO_DATE('2020-05-06', 'YYYY-MM-DD'),5,1);
-INSERT INTO Vuelo VALUES (38,'Norwegian',TO_DATE('2020-05-07', 'YYYY-MM-DD'),5,2);
-INSERT INTO Vuelo VALUES (39,'FlyBondi',TO_DATE('2020-05-08', 'YYYY-MM-DD'),5,3);
-INSERT INTO Vuelo VALUES (40,'Lufthansa',TO_DATE('2020-05-09', 'YYYY-MM-DD'),5,4);
-INSERT INTO Vuelo VALUES (41,'Aerolineas Argentinas',TO_DATE('2020-05-10', 'YYYY-MM-DD'),5,6);
-INSERT INTO Vuelo VALUES (42,'LATAM',TO_DATE('2020-05-11', 'YYYY-MM-DD'),5,7);
-INSERT INTO Vuelo VALUES (43,'Avianca',TO_DATE('2020-05-12', 'YYYY-MM-DD'),5,8);
-INSERT INTO Vuelo VALUES (44,'Copa Airlines',TO_DATE('2020-05-13', 'YYYY-MM-DD'),5,9);
-INSERT INTO Vuelo VALUES (45,'American Airlines',TO_DATE('2020-05-14', 'YYYY-MM-DD'),5,10);
-INSERT INTO Vuelo VALUES (46,'Delta',TO_DATE('2020-05-15', 'YYYY-MM-DD'),6,1);
-INSERT INTO Vuelo VALUES (47,'United Airlines',TO_DATE('2020-05-16', 'YYYY-MM-DD'),6,2);
-INSERT INTO Vuelo VALUES (48,'Norwegian',TO_DATE('2020-05-17', 'YYYY-MM-DD'),6,3);
-INSERT INTO Vuelo VALUES (49,'FlyBondi',TO_DATE('2020-05-18', 'YYYY-MM-DD'),6,4);
-INSERT INTO Vuelo VALUES (50,'Lufthansa',TO_DATE('2020-05-19', 'YYYY-MM-DD'),6,5);
-INSERT INTO Vuelo VALUES (51,'Aerolineas Argentinas',TO_DATE('2020-05-20', 'YYYY-MM-DD'),6,7);
-INSERT INTO Vuelo VALUES (52,'LATAM',TO_DATE('2020-05-21', 'YYYY-MM-DD'),6,8);
-INSERT INTO Vuelo VALUES (53,'Avianca',TO_DATE('2020-05-22', 'YYYY-MM-DD'),6,9);
-INSERT INTO Vuelo VALUES (54,'Copa Airlines',TO_DATE('2020-05-23', 'YYYY-MM-DD'),6,10);
-INSERT INTO Vuelo VALUES (55,'American Airlines',TO_DATE('2020-05-24', 'YYYY-MM-DD'),7,1);
-INSERT INTO Vuelo VALUES (56,'Delta',TO_DATE('2020-05-25', 'YYYY-MM-DD'),7,2);
-INSERT INTO Vuelo VALUES (57,'United Airlines',TO_DATE('2020-05-26', 'YYYY-MM-DD'),7,3);
-INSERT INTO Vuelo VALUES (58,'Norwegian',TO_DATE('2020-05-27', 'YYYY-MM-DD'),7,4);
-INSERT INTO Vuelo VALUES (59,'FlyBondi',TO_DATE('2020-05-28', 'YYYY-MM-DD'),7,5);
-INSERT INTO Vuelo VALUES (60,'Lufthansa',TO_DATE('2020-05-29', 'YYYY-MM-DD'),7,6);
-INSERT INTO Vuelo VALUES (61,'Aerolineas Argentinas',TO_DATE('2020-05-30', 'YYYY-MM-DD'),7,8);
-INSERT INTO Vuelo VALUES (62,'LATAM',TO_DATE('2020-05-31', 'YYYY-MM-DD'),7,9);
-INSERT INTO Vuelo VALUES (63,'Avianca',TO_DATE('2020-05-01', 'YYYY-MM-DD'),7,10);
-INSERT INTO Vuelo VALUES (64,'Copa Airlines',TO_DATE('2020-05-02', 'YYYY-MM-DD'),8,1);
-INSERT INTO Vuelo VALUES (65,'American Airlines',TO_DATE('2020-05-03', 'YYYY-MM-DD'),8,2);
-INSERT INTO Vuelo VALUES (66,'Delta',TO_DATE('2020-05-04', 'YYYY-MM-DD'),8,3);
-INSERT INTO Vuelo VALUES (67,'United Airlines',TO_DATE('2020-05-05', 'YYYY-MM-DD'),8,4);
-INSERT INTO Vuelo VALUES (68,'Norwegian',TO_DATE('2020-05-06', 'YYYY-MM-DD'),8,5);
-INSERT INTO Vuelo VALUES (69,'FlyBondi',TO_DATE('2020-05-07', 'YYYY-MM-DD'),8,6);
-INSERT INTO Vuelo VALUES (70,'AirFrance',TO_DATE('2020-05-08', 'YYYY-MM-DD'),8,7);
-INSERT INTO Vuelo VALUES (71,'Aerolineas Argentinas',TO_DATE('2020-05-09', 'YYYY-MM-DD'),8,9);
-INSERT INTO Vuelo VALUES (72,'LATAM',TO_DATE('2020-05-10', 'YYYY-MM-DD'),8,10);
-INSERT INTO Vuelo VALUES (73,'Avianca',TO_DATE('2020-05-11', 'YYYY-MM-DD'),9,1);
-INSERT INTO Vuelo VALUES (74,'Copa Airlines',TO_DATE('2020-05-12', 'YYYY-MM-DD'),9,2);
-INSERT INTO Vuelo VALUES (75,'American Airlines',TO_DATE('2020-05-13', 'YYYY-MM-DD'),9,3);
-INSERT INTO Vuelo VALUES (76,'Delta',TO_DATE('2020-05-14', 'YYYY-MM-DD'),9,4);
-INSERT INTO Vuelo VALUES (77,'United Airlines',TO_DATE('2020-05-15', 'YYYY-MM-DD'),9,5);
-INSERT INTO Vuelo VALUES (78,'Norwegian',TO_DATE('2020-05-16', 'YYYY-MM-DD'),9,6);
-INSERT INTO Vuelo VALUES (79,'FlyBondi',TO_DATE('2020-05-17', 'YYYY-MM-DD'),9,7);
-INSERT INTO Vuelo VALUES (80,'AirFrance',TO_DATE('2020-05-18', 'YYYY-MM-DD'),9,8);
-INSERT INTO Vuelo VALUES (81,'Aerolineas Argentinas',TO_DATE('2020-05-19', 'YYYY-MM-DD'),9,10);
-INSERT INTO Vuelo VALUES (82,'LATAM',TO_DATE('2020-05-20', 'YYYY-MM-DD'),10,1);
-INSERT INTO Vuelo VALUES (83,'Avianca',TO_DATE('2020-05-21', 'YYYY-MM-DD'),10,2);
-INSERT INTO Vuelo VALUES (84,'Copa Airlines',TO_DATE('2020-05-22', 'YYYY-MM-DD'),10,3);
-INSERT INTO Vuelo VALUES (85,'American Airlines',TO_DATE('2020-05-23', 'YYYY-MM-DD'),10,4);
-INSERT INTO Vuelo VALUES (86,'Delta',TO_DATE('2020-05-24', 'YYYY-MM-DD'),10,5);
-INSERT INTO Vuelo VALUES (87,'United Airlines',TO_DATE('2020-05-25', 'YYYY-MM-DD'),10,6);
-INSERT INTO Vuelo VALUES (88,'Norwegian',TO_DATE('2020-05-26', 'YYYY-MM-DD'),10,7);
-INSERT INTO Vuelo VALUES (89,'FlyBondi',TO_DATE('2020-05-27', 'YYYY-MM-DD'),10,8);
-INSERT INTO Vuelo VALUES (90,'AirFrance',TO_DATE('2020-05-28', 'YYYY-MM-DD'),10,9);
 
 
----------------------------------------------------------------------------Insumo-------------------------------------------------------------------
 INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Tapa boca','El tapabocas debe cubrir nariz y boca. Este debe quedar ajustado a la cara. La parte con color debe ponerse hacia afuera, puesto que es impermeable y es la barrera para los agentes externos. Colocárselo con el impermeable hacia adentro dificulta respirar y favorece la absorción de partículas.');
 INSERT into Insumo(Nombre_insumo,Descripcion_insumo) VALUES('Jabon Antibacterial','El Jabón Líquido para Manos está diseñado para la limpieza y humectación de las manos, sin provocar
 resequedad después de su aplicación. Disponible en diferentes aromas y neutro');
@@ -536,3 +442,114 @@ INSERT INTO Clinica_insumo values (47,47,12);
 INSERT INTO Clinica_insumo values (48,48,13);
 INSERT INTO Clinica_insumo values (49,49,14);
 INSERT INTO Clinica_insumo values (50,50,15);
+
+-- Aerolinea
+INSERT INTO Aerolinea (nombre_aerolinea) values ('American Airlines');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Air Canada');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Cubana de Aviacion');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('South African Airways');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Conviasa');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Air China');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Aeroflot Russian Airlines');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Lufthansa');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Iberia');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Qantas Airways');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Delta Airlines');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('WestJet');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Venezolana');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('Air Berlin');
+INSERT INTO Aerolinea (nombre_aerolinea) values ('JetStar Airways');
+
+
+-- Vuelo
+
+INSERT INTO Vuelo VALUES (1,TO_DATE('2020-05-01', 'YYYY-MM-DD'),11,16,1);
+INSERT INTO Vuelo VALUES (2,TO_DATE('2020-05-02', 'YYYY-MM-DD'),12,21,2);
+INSERT INTO Vuelo VALUES (3,TO_DATE('2020-05-03', 'YYYY-MM-DD'),13,26,3);
+INSERT INTO Vuelo VALUES (4,TO_DATE('2020-05-04', 'YYYY-MM-DD'),14,31,4);
+INSERT INTO Vuelo VALUES (5,TO_DATE('2020-05-05', 'YYYY-MM-DD'),15,36,5);
+INSERT INTO Vuelo VALUES (6,TO_DATE('2020-05-06', 'YYYY-MM-DD'),11,41,6);
+INSERT INTO Vuelo VALUES (7,TO_DATE('2020-05-07', 'YYYY-MM-DD'),12,46,7);
+INSERT INTO Vuelo VALUES (8,TO_DATE('2020-05-08', 'YYYY-MM-DD'),13,51,8);
+INSERT INTO Vuelo VALUES (9,TO_DATE('2020-05-09', 'YYYY-MM-DD'),14,56,9);
+INSERT INTO Vuelo VALUES (10,TO_DATE('2020-05-10', 'YYYY-MM-DD'),16,11,10);
+INSERT INTO Vuelo VALUES (11,TO_DATE('2020-05-11', 'YYYY-MM-DD'),17,22,11);
+INSERT INTO Vuelo VALUES (12,TO_DATE('2020-05-12', 'YYYY-MM-DD'),18,27,12);
+INSERT INTO Vuelo VALUES (13,TO_DATE('2020-05-13', 'YYYY-MM-DD'),19,32,13);
+INSERT INTO Vuelo VALUES (14,TO_DATE('2020-05-14', 'YYYY-MM-DD'),20,37,14);
+INSERT INTO Vuelo VALUES (15,TO_DATE('2020-05-15', 'YYYY-MM-DD'),16,42,15);
+INSERT INTO Vuelo VALUES (16,TO_DATE('2020-05-16', 'YYYY-MM-DD'),17,47,1);
+INSERT INTO Vuelo VALUES (17,TO_DATE('2020-05-17', 'YYYY-MM-DD'),18,52,2);
+INSERT INTO Vuelo VALUES (18,TO_DATE('2020-05-18', 'YYYY-MM-DD'),19,57,3);
+INSERT INTO Vuelo VALUES (19,TO_DATE('2020-05-19', 'YYYY-MM-DD'),21,12,4);
+INSERT INTO Vuelo VALUES (20,TO_DATE('2020-05-20', 'YYYY-MM-DD'),22,17,5);
+INSERT INTO Vuelo VALUES (21,TO_DATE('2020-05-21', 'YYYY-MM-DD'),23,28,6);
+INSERT INTO Vuelo VALUES (22,TO_DATE('2020-05-22', 'YYYY-MM-DD'),24,33,7);
+INSERT INTO Vuelo VALUES (23,TO_DATE('2020-05-23', 'YYYY-MM-DD'),25,38,8);
+INSERT INTO Vuelo VALUES (24,TO_DATE('2020-05-24', 'YYYY-MM-DD'),21,43,9);
+INSERT INTO Vuelo VALUES (25,TO_DATE('2020-05-25', 'YYYY-MM-DD'),22,48,10);
+INSERT INTO Vuelo VALUES (26,TO_DATE('2020-05-26', 'YYYY-MM-DD'),23,53,11);
+INSERT INTO Vuelo VALUES (27,TO_DATE('2020-05-27', 'YYYY-MM-DD'),24,58,12);
+INSERT INTO Vuelo VALUES (28,TO_DATE('2020-05-28', 'YYYY-MM-DD'),26,13,13);
+INSERT INTO Vuelo VALUES (29,TO_DATE('2020-05-29', 'YYYY-MM-DD'),27,18,14);
+INSERT INTO Vuelo VALUES (30,TO_DATE('2020-05-30', 'YYYY-MM-DD'),28,23,15);
+INSERT INTO Vuelo VALUES (31,TO_DATE('2020-05-31', 'YYYY-MM-DD'),29,34,1);
+INSERT INTO Vuelo VALUES (32,TO_DATE('2020-05-01', 'YYYY-MM-DD'),30,39,2);
+INSERT INTO Vuelo VALUES (33,TO_DATE('2020-05-02', 'YYYY-MM-DD'),26,44,3);
+INSERT INTO Vuelo VALUES (34,TO_DATE('2020-05-03', 'YYYY-MM-DD'),27,49,4);
+INSERT INTO Vuelo VALUES (35,TO_DATE('2020-05-04', 'YYYY-MM-DD'),28,54,5);
+INSERT INTO Vuelo VALUES (36,TO_DATE('2020-05-05', 'YYYY-MM-DD'),29,59,6);
+INSERT INTO Vuelo VALUES (37,TO_DATE('2020-05-06', 'YYYY-MM-DD'),31,14,7);
+INSERT INTO Vuelo VALUES (38,TO_DATE('2020-05-07', 'YYYY-MM-DD'),32,19,8);
+INSERT INTO Vuelo VALUES (39,TO_DATE('2020-05-08', 'YYYY-MM-DD'),33,24,9);
+INSERT INTO Vuelo VALUES (40,TO_DATE('2020-05-09', 'YYYY-MM-DD'),34,29,10);
+INSERT INTO Vuelo VALUES (41,TO_DATE('2020-05-10', 'YYYY-MM-DD'),35,35,11);
+INSERT INTO Vuelo VALUES (42,TO_DATE('2020-05-11', 'YYYY-MM-DD'),31,40,12);
+INSERT INTO Vuelo VALUES (43,TO_DATE('2020-05-12', 'YYYY-MM-DD'),32,45,13);
+INSERT INTO Vuelo VALUES (44,TO_DATE('2020-05-13', 'YYYY-MM-DD'),33,50,14);
+INSERT INTO Vuelo VALUES (45,TO_DATE('2020-05-14', 'YYYY-MM-DD'),34,55,15);
+INSERT INTO Vuelo VALUES (46,TO_DATE('2020-05-15', 'YYYY-MM-DD'),36,14,1);
+INSERT INTO Vuelo VALUES (47,TO_DATE('2020-05-16', 'YYYY-MM-DD'),37,20,2);
+INSERT INTO Vuelo VALUES (48,TO_DATE('2020-05-17', 'YYYY-MM-DD'),38,25,3);
+INSERT INTO Vuelo VALUES (49,TO_DATE('2020-05-18', 'YYYY-MM-DD'),39,30,4);
+INSERT INTO Vuelo VALUES (50,TO_DATE('2020-05-19', 'YYYY-MM-DD'),40,35,5);
+INSERT INTO Vuelo VALUES (51,TO_DATE('2020-05-20', 'YYYY-MM-DD'),36,45,6);
+INSERT INTO Vuelo VALUES (52,TO_DATE('2020-05-21', 'YYYY-MM-DD'),37,50,7);
+INSERT INTO Vuelo VALUES (53,TO_DATE('2020-05-22', 'YYYY-MM-DD'),38,55,8);
+INSERT INTO Vuelo VALUES (54,TO_DATE('2020-05-23', 'YYYY-MM-DD'),39,60,9);
+INSERT INTO Vuelo VALUES (55,TO_DATE('2020-05-24', 'YYYY-MM-DD'),41,11,10);
+INSERT INTO Vuelo VALUES (56,TO_DATE('2020-05-25', 'YYYY-MM-DD'),42,16,11);
+INSERT INTO Vuelo VALUES (57,TO_DATE('2020-05-26', 'YYYY-MM-DD'),43,21,12);
+INSERT INTO Vuelo VALUES (58,TO_DATE('2020-05-27', 'YYYY-MM-DD'),44,26,13);
+INSERT INTO Vuelo VALUES (59,TO_DATE('2020-05-28', 'YYYY-MM-DD'),45,31,14);
+INSERT INTO Vuelo VALUES (60,TO_DATE('2020-05-29', 'YYYY-MM-DD'),41,36,15);
+INSERT INTO Vuelo VALUES (61,TO_DATE('2020-05-30', 'YYYY-MM-DD'),42,46,1);
+INSERT INTO Vuelo VALUES (62,TO_DATE('2020-05-30', 'YYYY-MM-DD'),43,51,2);
+INSERT INTO Vuelo VALUES (63,TO_DATE('2020-05-01', 'YYYY-MM-DD'),44,56,3);
+INSERT INTO Vuelo VALUES (64,TO_DATE('2020-05-02', 'YYYY-MM-DD'),46,12,4);
+INSERT INTO Vuelo VALUES (65,TO_DATE('2020-05-03', 'YYYY-MM-DD'),47,17,5);
+INSERT INTO Vuelo VALUES (66,TO_DATE('2020-05-04', 'YYYY-MM-DD'),48,22,6);
+INSERT INTO Vuelo VALUES (67,TO_DATE('2020-05-05', 'YYYY-MM-DD'),49,27,7);
+INSERT INTO Vuelo VALUES (68,TO_DATE('2020-05-05', 'YYYY-MM-DD'),50,32,8);
+INSERT INTO Vuelo VALUES (69,TO_DATE('2020-05-05', 'YYYY-MM-DD'),46,37,9);
+INSERT INTO Vuelo VALUES (70,TO_DATE('2020-05-08', 'YYYY-MM-DD'),47,42,10);
+INSERT INTO Vuelo VALUES (71,TO_DATE('2020-05-09', 'YYYY-MM-DD'),48,52,11);
+INSERT INTO Vuelo VALUES (72,TO_DATE('2020-05-10', 'YYYY-MM-DD'),49,57,12);
+INSERT INTO Vuelo VALUES (73,TO_DATE('2020-05-11', 'YYYY-MM-DD'),51,13,13);
+INSERT INTO Vuelo VALUES (74,TO_DATE('2020-05-12', 'YYYY-MM-DD'),52,18,14);
+INSERT INTO Vuelo VALUES (75,TO_DATE('2020-05-13', 'YYYY-MM-DD'),53,23,15);
+INSERT INTO Vuelo VALUES (76,TO_DATE('2020-05-14', 'YYYY-MM-DD'),54,28,1);
+INSERT INTO Vuelo VALUES (77,TO_DATE('2020-05-15', 'YYYY-MM-DD'),55,33,2);
+INSERT INTO Vuelo VALUES (78,TO_DATE('2020-05-16', 'YYYY-MM-DD'),51,38,3);
+INSERT INTO Vuelo VALUES (79,TO_DATE('2020-05-17', 'YYYY-MM-DD'),52,43,4);
+INSERT INTO Vuelo VALUES (80,TO_DATE('2020-05-18', 'YYYY-MM-DD'),53,48,5);
+INSERT INTO Vuelo VALUES (81,TO_DATE('2020-05-19', 'YYYY-MM-DD'),54,58,6);
+INSERT INTO Vuelo VALUES (82,TO_DATE('2020-05-20', 'YYYY-MM-DD'),56,14,7);
+INSERT INTO Vuelo VALUES (83,TO_DATE('2020-05-21', 'YYYY-MM-DD'),57,19,8);
+INSERT INTO Vuelo VALUES (84,TO_DATE('2020-05-22', 'YYYY-MM-DD'),58,24,9);
+INSERT INTO Vuelo VALUES (85,TO_DATE('2020-05-23', 'YYYY-MM-DD'),59,29,10);
+INSERT INTO Vuelo VALUES (86,TO_DATE('2020-05-24', 'YYYY-MM-DD'),60,34,11);
+INSERT INTO Vuelo VALUES (87,TO_DATE('2020-05-25', 'YYYY-MM-DD'),56,39,12);
+INSERT INTO Vuelo VALUES (88,TO_DATE('2020-05-26', 'YYYY-MM-DD'),57,44,13);
+INSERT INTO Vuelo VALUES (89,TO_DATE('2020-05-27', 'YYYY-MM-DD'),58,49,14);
+INSERT INTO Vuelo VALUES (90,TO_DATE('2020-05-28', 'YYYY-MM-DD'),59,54,15);
